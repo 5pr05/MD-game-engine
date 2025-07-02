@@ -1,24 +1,30 @@
 package cz.cvut.fel.pjv.characters;
 
 import cz.cvut.fel.pjv.inputs.InputHandler;
+import cz.cvut.fel.pjv.level.*;
 
 public class PlayerController {
     private Player player;
     private Enemies[] enemies;
+    private Platform[] platforms;
     private static InputHandler inputHandler;
     private double horizontalMovement = 1.5;
     private int jumpSpeed = 3;
     private boolean isJumping = false;
+    private boolean isFalling = true;
+    private boolean onPlatform = false;
     private int jumpCounter = 0;
+    private static boolean alive = true;
+    private boolean canAttack = true;
+    private int groundYPosition = 300;
     private double initialYPosition;
-    protected static boolean alive = true;
-    protected boolean canAttack = true;
 
-    public PlayerController(Player player, InputHandler inputHandler, Enemies[] enemies){
+    public PlayerController(Player player, InputHandler inputHandler, Enemies[] enemies, Platform[] platforms){
         this.player = player;
         this.inputHandler = inputHandler;
         this.initialYPosition = player.getYPosition();
         this.enemies = enemies;
+        this.platforms = platforms;
     }
 
     // input handler setter
@@ -85,13 +91,24 @@ public class PlayerController {
         if (isJumping && jumpCounter > 0) {
             player.setYPosition(player.getYPosition() - jumpSpeed);
             jumpCounter--;
-        } else {
-            isJumping = false;
-            if (player.getYPosition() < initialYPosition) {
-                player.setYPosition(player.getYPosition() + jumpSpeed);
-            } else if (player.getYPosition() > initialYPosition) {
-                player.setYPosition(player.getYPosition() - jumpSpeed);
+            if (jumpCounter == 0) {
+                isJumping = false;
             }
+        } else if (!onPlatform && player.getYPosition() < groundYPosition) {
+            player.setYPosition(player.getYPosition() + jumpSpeed);
+        }
+        onPlatform = false;
+        for (Platform platform : platforms) {
+            if (platform.isPlayerOnPlatform(player)) {
+                isFalling = false;
+                player.setYPosition(platform.getYPosition() - 125);
+                initialYPosition = platform.getYPosition() - 125;
+                onPlatform = true;
+                break;
+            }
+        }
+        if (!onPlatform) {
+            initialYPosition = groundYPosition;
         }
     }
 }

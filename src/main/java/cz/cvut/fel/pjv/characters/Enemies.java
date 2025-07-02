@@ -2,6 +2,7 @@ package cz.cvut.fel.pjv.characters;
 
 public class Enemies extends Characters {
     private Player player;
+    protected boolean isLava = false;
 
     protected double enemiesXPosition = this.xPosition;
     protected double enemiesYPosition = this.yPosition;
@@ -24,8 +25,10 @@ public class Enemies extends Characters {
 
     // kill enemy
     public void kill() {
-        alive = false;
-        System.out.println("Enemy killed!");
+        if (!isLava) {
+            alive = false;
+            System.out.println("Enemy killed!");
+        }
     }
     public boolean isAlive() {
         return alive;
@@ -47,7 +50,7 @@ public class Enemies extends Characters {
         }
 
         // hitbox logic
-        if (isAlive() && (Math.abs(enemiesXPosition - playerXPosition) <= Player.hitboxWeight) && (Math.abs(enemiesYPosition - playerYPosition) <= Player.hitboxHeight)) {
+        if (isAlive() && (Math.abs(enemiesXPosition - playerXPosition) <= Player.hitboxWidth) && (Math.abs(enemiesYPosition - playerYPosition) <= Player.hitboxHeight)) {
             if (PlayerController.isAlive()) {
                 PlayerController.kill();
             }

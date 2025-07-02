@@ -4,6 +4,7 @@ import cz.cvut.fel.pjv.characters.Enemies;
 import cz.cvut.fel.pjv.inputs.InputHandler;
 import cz.cvut.fel.pjv.characters.Player;
 import cz.cvut.fel.pjv.characters.PlayerController;
+import cz.cvut.fel.pjv.level.*;
 
 public class GameEngine implements Runnable{
     private GameWindow window;
@@ -18,14 +19,14 @@ public class GameEngine implements Runnable{
         Player player = new Player(xPosition, yPosition);
         panel = new GamePanel(xPosition, yPosition);
         Enemies[] enemies = panel.getEnemies();
-        PlayerController playerController = new PlayerController(player, null, enemies);
+        Platform[] platforms = panel.getPlatforms();
+        PlayerController playerController = new PlayerController(player, null, enemies, platforms);
         InputHandler inputHandler = new InputHandler(playerController, panel);
         playerController.setInputHandler(inputHandler);
         panel.setInputHandler(inputHandler);
         window = new GameWindow(panel);
         panel.requestFocus();
         startGameLoop();
-
     }
 
 
