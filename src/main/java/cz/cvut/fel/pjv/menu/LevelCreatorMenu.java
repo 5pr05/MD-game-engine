@@ -28,14 +28,14 @@ public class LevelCreatorMenu extends BaseMenu {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        addButton(panel, "Slot 1", 100, 400, 100, 50, e -> startLevel(1), "/button.png");
-        addButton(panel, "Slot 2", 300, 400, 100, 50, e -> startLevel(2), "/button.png");
-        addButton(panel, "Slot 3", 500, 400, 100, 50, e -> startLevel(3), "/button.png");
+        addButton(panel, "Slot 1", 100, 200, 200, 50, e -> startLevel(1), "/button.png");
+        addButton(panel, "Slot 2", 100, 270, 200, 50, e -> startLevel(2), "/button.png");
+        addButton(panel, "Slot 3", 100, 340, 200, 50, e -> startLevel(3), "/button.png");
 
 
-        addButton(panel, "Edit 1", 100, 250, 200, 50, e -> openFile("src/main/resources/slots/slot1.txt"), "/button.png");
-        addButton(panel, "Edit 2", 300, 250, 200, 50, e -> openFile("src/main/resources/slots/slot2.txt"), "/button.png");
-        addButton(panel, "Edit 3", 500, 250, 200, 50, e -> openFile("src/main/resources/slots/slot3.txt"), "/button.png");
+        addButton(panel, "Edit 1", 350, 200, 100, 50, e -> openFile("src/main/resources/slots/slot1.txt"), "/button.png");
+        addButton(panel, "Edit 2", 350, 270, 100, 50, e -> openFile("src/main/resources/slots/slot2.txt"), "/button.png");
+        addButton(panel, "Edit 3", 350, 340, 100, 50, e -> openFile("src/main/resources/slots/slot3.txt"), "/button.png");
 
         return panel;
     }

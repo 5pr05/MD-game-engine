@@ -43,6 +43,7 @@ public class LevelLoader {
                     row = 0;
                     continue;
                 }
+                if (line.equals(" P - platform, G - guard, L - lava, C - chest, D - door, K - key")) {continue;}
                 for (int i = 0; i < line.length(); i++) {
                     char c = line.charAt(i);
                     switch (c) {
@@ -59,8 +60,10 @@ public class LevelLoader {
                             entities.add(new Chest(i*20, row*50));
                             break;
                         case 'K':
+                            entities.add(new Key(i*20, row*50));
                             break;
                         case 'D':
+                            entities.add(new Door(i*20, row*50));
                             break;
                         default:
                             break;

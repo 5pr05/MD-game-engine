@@ -39,9 +39,7 @@ public class Entities {
     public void kill() {
         if (!isImmortal) {
             alive = false;
-            if (isChest){
-                System.out.println("Chest opened!");
-            } else if (isEnemy) {
+            if (isEnemy) {
                 System.out.println("Enemy killed!");
             } else if (isKey) {
                 System.out.println("Key picked!");

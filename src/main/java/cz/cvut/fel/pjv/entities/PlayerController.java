@@ -95,9 +95,14 @@ public class PlayerController {
         } else {
             isFalling = true;
         }
-        if (gameModel.isPlayerCollidingWithEntity() == 0) {
+
+        int collisionResult = gameModel.isPlayerCollidingWithEntity();
+        if (collisionResult == 3) {
             player.kill();
+        } else if (collisionResult == 1) {
+            player.pickKey(true);
         }
+
         if (player.getXPosition() > 1280) {
             transitionToNewLocation();
         }
@@ -115,4 +120,5 @@ public class PlayerController {
             inputHandler.setButtonClicked(false);
         }
     }
+
 }

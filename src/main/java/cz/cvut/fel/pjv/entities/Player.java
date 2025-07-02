@@ -8,6 +8,7 @@ public class Player {
     private static boolean alive = true;
     private boolean canAttack = false;
     private int openedChests = 0;
+    private boolean keyPicked;
 
     private double xPosition;
     private double yPosition;
@@ -85,4 +86,11 @@ public class Player {
 
     // opened chest getter
     public int getOpenedChests(){return openedChests;}
+
+    // key picked getter
+    public boolean isKeyPicked(){return keyPicked;}
+
+    // key picked setter
+    public void pickKey(boolean key) {keyPicked = key;}
+
 }

@@ -69,8 +69,20 @@ public class GameModel {
                 return false;
             }
         }
+
+        for (Entities door : entities) {
+            if (newXPosition < door.getEntitiesXPosition() + 64 &&
+                    newXPosition + playerWidth > door.getEntitiesXPosition() &&
+                    playerY < door.getEntitiesYPosition() + 64 &&
+                    playerY + playerHeight > door.getEntitiesYPosition() && door.isDoor() && door.isAlive()) {
+                return false;
+            }
+        }
+
         return true;
     }
+
+
 
     public void attackEntities() {
         for (Entities entity : entities) {
@@ -79,11 +91,13 @@ public class GameModel {
                         (Math.abs(entity.getEntitiesYPosition() - player.getYPosition()) <= player.getAttackRangeHeight())) {
                     if (entity.isChest()) {
                         player.openChest();
-                        System.out.println(player.getOpenedChests());
-                    }
-                    if (entity.isChest()) {
                         entity.kill();
-                    } else if (player.getCanAttack()) {
+                        System.out.println("Chest " + player.getOpenedChests() + " opened!");
+                    }
+                    if (entity.isDoor() && player.isKeyPicked()) {
+                        entity.kill();
+                        player.pickKey(false);
+                    } else if (player.getCanAttack() && !entity.isDoor()) {
                         entity.kill();
                     }
                 }
@@ -102,16 +116,24 @@ public class GameModel {
 
                 if ((Math.abs(entityXPosition - playerXPosition) <= player.getHitboxWidth()) &&
                         (Math.abs(entityYPosition - playerYPosition) <= player.getHitboxHeight())) {
-                    if (entity.isChest() || entity.isKey() || entity.isDoor()) {
+
+                    if (entity.isKey()) {
+                        entity.kill();
                         return 1;
-                    } else if (entity.isEnemy()){
-                        return 0;
+                    } else if (entity.isDoor()) {
+                        return 2;
+                    } else if (entity.isEnemy()) {
+                        return 3;
                     }
                 }
             }
         }
-        return 2;
+        return 0;
     }
+
+
+
+
 
     public boolean isLevelComplete() {
         return levelComplete;

@@ -128,6 +128,10 @@ public class GameRenderer {
                 graphics.drawImage(platformSprites.getSubimage(xPose * 100, 1, 20, 50), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition(), null);
             } else if (entity instanceof Chest) {
                 graphics.drawImage(chestSprites.getSubimage(xPose * 40, entity.yPose * 40, 40, 40), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()+10, null);
+            } else if (entity instanceof Key) {
+                graphics.drawImage(playerSprites.getSubimage(xPose * 40, entity.yPose * 40, 40, 40), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-10, null);
+            } else if (entity instanceof Door) {
+                graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, entity.yPose * spriteHeight, spriteWidth, spriteHeight), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-14, null);
             }
             for (Platform platform : platforms) {
                 graphics.drawImage(platformSprites.getSubimage(0, 0, 20, 20), platform.getxPosition(), platform.getYPosition(), null);
