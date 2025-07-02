@@ -11,7 +11,7 @@ public class LevelSelectionMenu extends BaseMenu {
 
     public LevelSelectionMenu() {
         this.levelSelectionFrame = setupFrame("Myths And Dreams");
-        addButtonToPanel(levelSelectionFrame, createLevelSelectionPanel(), "/lava_sprites.png");
+        addButtonToPanel(levelSelectionFrame, createLevelSelectionPanel(), "/level_selector_bg.png");
     }
 
     public void startLevel(int levelNum) {
@@ -26,8 +26,8 @@ public class LevelSelectionMenu extends BaseMenu {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        addButton(panel, "Level 1", 100, 250, 200, 50, e -> startLevel(1), "/button.png");
-        addButton(panel, "Level 2", 300, 250, 200, 50, e -> startLevel(2), "/button.png");
+        addButton(panel, "Level 1", 100, 250, 100, 100, e -> startLevel(1), "/level1.png");
+        addButton(panel, "Level 2", 300, 400, 100, 100, e -> startLevel(2), "/level2.png");
 
         return panel;
     }

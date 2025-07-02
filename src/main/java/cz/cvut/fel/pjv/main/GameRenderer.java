@@ -16,7 +16,7 @@ public class GameRenderer {
     private InputHandler inputHandler;
     private Entities[] entities;
     private Platform[] platforms;
-    private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites, inventoryImage, chestSprites, levelCompleteImage, abilitiesImage;
+    private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites, inventoryImage, chestSprites, levelCompleteImage, abilitiesImage, bgImage, keySprites, doorSprites;
     private BufferedImage[] stories;
     private int xPose, yPose, inventoryPose, storyPose;
     private int spriteWidth = 40;
@@ -101,9 +101,12 @@ public class GameRenderer {
         lavaSprites = importImage("/lava_sprites.png");
         platformSprites = importImage("/platform_sprite.png");
         inventoryImage = importImage("/inventory.png");
-        chestSprites = importImage("/guard_sprites.png");
-        levelCompleteImage = importImage("/inventory.png");
-        abilitiesImage = importImage("/guard_sprites.png");
+        chestSprites = importImage("/chest_sprites.png");
+        levelCompleteImage = importImage("/level_completed.png");
+        abilitiesImage = importImage("/abilities_sprites.png");
+        keySprites = importImage("/key_sprites.png");
+        doorSprites = importImage("/door_sprites.png");
+        bgImage = importImage("/level_bg.png");
         stories = new BufferedImage[3];
         for (int i = 0; i < 3; i++) {
             stories[i] = inventoryImage.getSubimage(700, i * 450, 700, 450);
@@ -121,24 +124,25 @@ public class GameRenderer {
 
     // render graphics
     public void render(Graphics graphics) {
+        graphics.drawImage(bgImage, 0, 0, null);
         graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, yPose * spriteHeight, spriteWidth, spriteHeight), (int) player.getXPosition(), (int) player.getYPosition(), null);
         for (Entities entity : entities) {
             if (entity instanceof Guard) {
-                graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, entity.yPose * spriteHeight, spriteWidth, spriteHeight), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-14, null);
+                graphics.drawImage(guardSprites.getSubimage(xPose * spriteWidth, entity.yPose * spriteHeight, spriteWidth, spriteHeight), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-14, null);
             } else if (entity instanceof Lava) {
-                graphics.drawImage(platformSprites.getSubimage(xPose * 100, 1, 20, 50), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition(), null);
+                graphics.drawImage(lavaSprites.getSubimage(xPose * 20, 1, 20, 45), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition(), null);
             } else if (entity instanceof Chest) {
-                graphics.drawImage(chestSprites.getSubimage(xPose * 40, entity.yPose * 40, 40, 40), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()+10, null);
+                graphics.drawImage(chestSprites.getSubimage(0, entity.yPose * 40, 40, 40), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()+10, null);
             } else if (entity instanceof Key) {
-                graphics.drawImage(playerSprites.getSubimage(xPose * 40, entity.yPose * 40, 40, 40), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-10, null);
+                graphics.drawImage(keySprites.getSubimage(xPose * 40, entity.yPose * 40, 40, 40), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-10, null);
             } else if (entity instanceof Door) {
-                graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, entity.yPose * spriteHeight, spriteWidth, spriteHeight), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-14, null);
+                graphics.drawImage(doorSprites.getSubimage(0, entity.yPose * spriteHeight, spriteWidth, spriteHeight), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-14, null);
             }
             for (Platform platform : platforms) {
                 graphics.drawImage(platformSprites.getSubimage(0, 0, 20, 20), platform.getxPosition(), platform.getYPosition(), null);
             }
         }
-        if(player.getOpenedChests() == 3 && inputHandler.isInventoryOpen() && inputHandler.isLeftButtonClicked()) {
+        if(gameModel.isAbilityCreated() && inputHandler.isInventoryOpen() && inputHandler.isLeftButtonClicked()) {
             graphics.drawImage(stories[GameEngine.getLevelNum() - 1], 1280 / 2 - (700 / 2), 800 / 2 - (450 / 2), null);
         } else if (player.getOpenedChests() <= 3 && inputHandler.isInventoryOpen()) {
             graphics.drawImage(inventoryImage.getSubimage(storyPose, inventoryPose * 450, 700, 450), 1280 / 2 - (700 / 2), 800 / 2 - (450 / 2), null);

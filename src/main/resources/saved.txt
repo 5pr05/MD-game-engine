@@ -1,14 +1,15 @@
 Level:
-0
+2
 
 Location:
 0
 
 Coordinates:
-0
+15.0
+720.0
 
 Opened chests:
 0
 
 Inventory:
-
+Sword

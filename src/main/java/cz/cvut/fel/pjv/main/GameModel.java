@@ -84,6 +84,8 @@ public class GameModel {
         return true;
     }
 
+    public boolean isAbilityCreated() {return PlayerController.isAbilityCreated();}
+
 
 
     public void attackEntities() {

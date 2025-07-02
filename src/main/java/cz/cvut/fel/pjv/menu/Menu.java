@@ -16,7 +16,7 @@ public class Menu extends BaseMenu {
 
     public Menu() {
         this.menuFrame = setupFrame("Myths And Dreams");
-        addButtonToPanel(menuFrame, createMenuPanel(), "/platform_sprite.png");
+        addButtonToPanel(menuFrame, createMenuPanel(), "/main_screen.png");
     }
 
     public void startGame() {
@@ -67,10 +67,10 @@ public class Menu extends BaseMenu {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        addButton(panel, "Start Game", 950, 400, 200, 50, e -> startGame(), "/button.png");
-        addButton(panel, "Load Saved", 950, 460, 200, 50, e -> loadSaved(), "/button.png");
-        addButton(panel, "Create Level", 950, 520, 200, 50, e -> createLevel(), "/button.png");
-        addButton(panel, "Quit", 950, 580, 200, 50, e -> quit(), "/button.png");
+        addButton(panel, "Select Level", 950, 400, 220, 50, e -> startGame(), "/select_level_button.png");
+        addButton(panel, "Load Saved", 950, 460, 220, 50, e -> loadSaved(), "/load_save_button.png");
+        addButton(panel, "Create Level", 950, 520, 220, 50, e -> createLevel(), "/create_level_button.png");
+        addButton(panel, "Quit Game", 950, 580, 220, 50, e -> quit(), "/quit_game_button.png");
 
         return panel;
     }

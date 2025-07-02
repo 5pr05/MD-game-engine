@@ -13,7 +13,7 @@ public class PlayerController {
     private GamePanel gamePanel;
 
     private boolean onPlatform = false;
-    private boolean abilityCreated = false;
+    private static boolean abilityCreated = false;
     private boolean savedOnce = false;
     private int jumpCounter = 0;
 
@@ -55,6 +55,7 @@ public class PlayerController {
     public void attack() {
         gameModel.attackEntities();
     }
+    public static boolean isAbilityCreated() {return abilityCreated;}
 
     public void update() {
         if (player.isAlive()) {
