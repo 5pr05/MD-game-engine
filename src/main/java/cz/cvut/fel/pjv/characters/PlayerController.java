@@ -1,7 +1,8 @@
 package cz.cvut.fel.pjv.characters;
 
-import cz.cvut.fel.pjv.inputs.InputHandler;
+import cz.cvut.fel.pjv.inputs.*;
 import cz.cvut.fel.pjv.level.*;
+import cz.cvut.fel.pjv.main.*;
 
 public class PlayerController {
     private Player player;
@@ -12,20 +13,22 @@ public class PlayerController {
     private int jumpSpeed = 3;
     private boolean isJumping = false;
     private boolean isFalling = true;
+    private static GameRenderer gameRenderer;
+
     private boolean onPlatform = false;
     private int jumpCounter = 0;
     private static boolean alive = true;
     private boolean canAttack = true;
     private int groundYPosition = 300;
     private double initialYPosition;
-
-    public PlayerController(Player player, InputHandler inputHandler, Enemies[] enemies, Platform[] platforms){
+    public PlayerController(Player player, InputHandler inputHandler, Enemies[] enemies, Platform[] platforms, GameRenderer gameRenderer){
         this.player = player;
         this.inputHandler = inputHandler;
         this.initialYPosition = player.getYPosition();
         this.enemies = enemies;
         this.platforms = platforms;
     }
+
 
     // input handler setter
     public void setInputHandler(InputHandler inputHandler) {
@@ -39,9 +42,10 @@ public class PlayerController {
 
     // player jumps
     public void jump(int value){
-        if (!isJumping && player.getYPosition() == initialYPosition) {
+        if (!isJumping && !isFalling) {
             player.setYPosition(player.getYPosition() - value * jumpSpeed);
             isJumping = true;
+            isFalling = true;
             jumpCounter = 40;
         }
     }
@@ -61,7 +65,7 @@ public class PlayerController {
         if (canAttack){
             for (Enemies enemy : enemies) {
                 if (enemy != null) {
-                    if ((Math.abs(enemy.getEnemiesXPosition() - player.getXPosition()) <= Player.attackRangeWeight) &&
+                    if ((Math.abs(enemy.getEnemiesXPosition() - player.getXPosition()) <= Player.attackRangeWidth) &&
                             (Math.abs(enemy.getEnemiesYPosition() - player.getYPosition()) <= Player.attackRangeHeight)) {
                         if (enemy.isAlive()) {
                             enemy.kill();
@@ -88,7 +92,7 @@ public class PlayerController {
                 attack();
             }
         }
-        if (isJumping && jumpCounter > 0) {
+        if (isJumping && !isFalling && jumpCounter > 0) {
             player.setYPosition(player.getYPosition() - jumpSpeed);
             jumpCounter--;
             if (jumpCounter == 0) {
@@ -101,14 +105,16 @@ public class PlayerController {
         for (Platform platform : platforms) {
             if (platform.isPlayerOnPlatform(player)) {
                 isFalling = false;
-                player.setYPosition(platform.getYPosition() - 125);
-                initialYPosition = platform.getYPosition() - 125;
+                player.setYPosition(platform.getYPosition() - 64);
+                initialYPosition = player.getYPosition();
                 onPlatform = true;
                 break;
             }
         }
-        if (!onPlatform) {
-            initialYPosition = groundYPosition;
+        if (!onPlatform && player.getYPosition() >= groundYPosition) {
+            initialYPosition = player.getYPosition();
+            isFalling = false;
         }
     }
+
 }

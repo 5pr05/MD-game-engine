@@ -3,6 +3,7 @@ package cz.cvut.fel.pjv.characters;
 public class Enemies extends Characters {
     private Player player;
     protected boolean isLava = false;
+    protected static int direction = 1;
 
     protected double enemiesXPosition = this.xPosition;
     protected double enemiesYPosition = this.yPosition;
@@ -23,6 +24,11 @@ public class Enemies extends Characters {
         return enemiesYPosition;
     }
 
+    // direction getter
+    public int getDirection(){
+        return direction;
+    }
+
     // kill enemy
     public void kill() {
         if (!isLava) {
@@ -30,6 +36,8 @@ public class Enemies extends Characters {
             System.out.println("Enemy killed!");
         }
     }
+
+    // alive getter
     public boolean isAlive() {
         return alive;
     }

@@ -2,12 +2,6 @@ package cz.cvut.fel.pjv.level;
 
 import cz.cvut.fel.pjv.characters.Player;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-
 public class Platform {
     private int xPosition, yPosition;
     private int width, height;
@@ -17,20 +11,6 @@ public class Platform {
         this.yPosition = yPosition;
         this.width = width;
         this.height = height;
-        importImg();
-    }
-
-    private BufferedImage img, pose;
-
-    // import image for platform
-    private void importImg() {
-        InputStream stream = getClass().getResourceAsStream("/player_sprites.png");
-        try {
-            img = ImageIO.read(stream);
-            pose = img.getSubimage(1,1,100,20);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     // x position getter
@@ -53,11 +33,6 @@ public class Platform {
         return height;
     }
 
-    // draw platform
-    public void drawPlatform(Graphics graphics) {
-        graphics.drawImage(pose, xPosition, yPosition, 200, 40, null);
-    }
-
     // check if player is on platform
     public boolean isPlayerOnPlatform(Player player) {
         int playerX = (int) player.getXPosition();
@@ -73,6 +48,4 @@ public class Platform {
 
         return false;
     }
-
 }
-

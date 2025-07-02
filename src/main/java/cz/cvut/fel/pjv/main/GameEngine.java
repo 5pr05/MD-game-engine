@@ -1,10 +1,6 @@
 package cz.cvut.fel.pjv.main;
 
-import cz.cvut.fel.pjv.characters.Enemies;
-import cz.cvut.fel.pjv.inputs.InputHandler;
-import cz.cvut.fel.pjv.characters.Player;
-import cz.cvut.fel.pjv.characters.PlayerController;
-import cz.cvut.fel.pjv.level.*;
+import cz.cvut.fel.pjv.characters.*;
 
 public class GameEngine implements Runnable{
     private GameWindow window;
@@ -12,23 +8,20 @@ public class GameEngine implements Runnable{
     private Thread gameLoopThread;
     private final int TARGET_FPS = 120;
     private boolean running = false;
+    private GameRenderer gameRenderer;
+
+    private PlayerController playerController;
 
     public GameEngine() {
         double xPosition = 0; // start x position
         double yPosition = 300; // start y position
-        Player player = new Player(xPosition, yPosition);
         panel = new GamePanel(xPosition, yPosition);
-        Enemies[] enemies = panel.getEnemies();
-        Platform[] platforms = panel.getPlatforms();
-        PlayerController playerController = new PlayerController(player, null, enemies, platforms);
-        InputHandler inputHandler = new InputHandler(playerController, panel);
-        playerController.setInputHandler(inputHandler);
-        panel.setInputHandler(inputHandler);
         window = new GameWindow(panel);
+        playerController = panel.getPlayerController();
+        gameRenderer = panel.getGameRenderer();
         panel.requestFocus();
         startGameLoop();
     }
-
 
     // start game loop
     private void startGameLoop(){
@@ -54,7 +47,7 @@ public class GameEngine implements Runnable{
             long currentTime = System.nanoTime();
             if (currentTime - lastUpdateTime >= timePerUpdate){
                 panel.update();
-                panel.repaint();
+                gameRenderer.runAnimation();
                 lastUpdateTime = currentTime;
                 frames++;
             }
