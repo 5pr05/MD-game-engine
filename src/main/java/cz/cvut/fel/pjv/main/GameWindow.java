@@ -11,13 +11,15 @@ public class GameWindow {
     }
 
     private void initializeWindow(GamePanel gamePanel) {
-        gameFrame.getContentPane().removeAll();
-        gameFrame.add(gamePanel);
-        gameFrame.setResizable(false);
-        gameFrame.pack();
-        gameFrame.setLocationRelativeTo(null);
-        gameFrame.repaint();
-        gameFrame.setVisible(true);
-        gamePanel.requestFocusInWindow();
+        SwingUtilities.invokeLater(() -> {
+            gameFrame.getContentPane().removeAll();
+            gameFrame.add(gamePanel);
+            gameFrame.setResizable(false);
+            gameFrame.pack();
+            gameFrame.setLocationRelativeTo(null);
+            gameFrame.repaint();
+            gameFrame.setVisible(true);
+            gamePanel.requestFocusInWindow();
+        });
     }
 }

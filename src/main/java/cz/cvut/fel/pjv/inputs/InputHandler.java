@@ -8,9 +8,10 @@ import java.awt.event.*;
 public class InputHandler implements KeyListener, MouseListener {
     private GamePanel gamePanel;
 
-    private boolean left, right, jump, attack, inventory = false, buttonClicked = false;
+    private boolean left, right, jump, attack, inventory = false, leftButtonClicked = false, rightButtonClicked = false;
 
-    private int buttonX = 1280/2-(100/2);
+    private int leftButtonX = 1280/2-(100/2) -100;
+    private int rightButtonX = 1280/2-(100/2) +100;
     private int buttonY = 800/2-((40/2)-170);
     private int buttonWidth = 100;
     private int buttonHeight = 40;
@@ -68,14 +69,19 @@ public class InputHandler implements KeyListener, MouseListener {
 
     public boolean isAttack() { return attack;}
     public boolean isInventoryOpen() { return inventory;}
-    public boolean isButtonClicked() { return buttonClicked;}
-    public void setButtonClicked(boolean b) { buttonClicked = b; }
+    public boolean isLeftButtonClicked() { return leftButtonClicked;}
+    public boolean isRightButtonClicked() { return rightButtonClicked;}
+    public void setLeftButtonClicked(boolean click) { leftButtonClicked = click; }
+
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
-        buttonClicked = mouseX >= buttonX && mouseX <= buttonX + buttonWidth &&
+        leftButtonClicked = mouseX >= leftButtonX && mouseX <= leftButtonX + buttonWidth &&
+                mouseY >= buttonY && mouseY <= buttonY + buttonHeight;
+        rightButtonClicked = mouseX >= rightButtonX && mouseX <= rightButtonX + buttonWidth &&
                 mouseY >= buttonY && mouseY <= buttonY + buttonHeight;
     }
 

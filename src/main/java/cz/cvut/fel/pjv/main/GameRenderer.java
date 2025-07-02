@@ -16,7 +16,7 @@ public class GameRenderer {
     private InputHandler inputHandler;
     private Entities[] entities;
     private Platform[] platforms;
-    private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites, inventoryImage, chestSprites, levelCompleteImage;
+    private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites, inventoryImage, chestSprites, levelCompleteImage, abilitiesImage;
     private BufferedImage[] stories;
     private int xPose, yPose, inventoryPose, storyPose;
     private int spriteWidth = 40;
@@ -103,6 +103,7 @@ public class GameRenderer {
         inventoryImage = importImage("/inventory.png");
         chestSprites = importImage("/guard_sprites.png");
         levelCompleteImage = importImage("/inventory.png");
+        abilitiesImage = importImage("/guard_sprites.png");
         stories = new BufferedImage[3];
         for (int i = 0; i < 3; i++) {
             stories[i] = inventoryImage.getSubimage(700, i * 450, 700, 450);
@@ -137,13 +138,22 @@ public class GameRenderer {
                 graphics.drawImage(platformSprites.getSubimage(0, 0, 20, 20), platform.getxPosition(), platform.getYPosition(), null);
             }
         }
-        if(player.getOpenedChests() == 3 && inputHandler.isInventoryOpen() && inputHandler.isButtonClicked()) {
+        if(player.getOpenedChests() == 3 && inputHandler.isInventoryOpen() && inputHandler.isLeftButtonClicked()) {
             graphics.drawImage(stories[GameEngine.getLevelNum() - 1], 1280 / 2 - (700 / 2), 800 / 2 - (450 / 2), null);
         } else if (player.getOpenedChests() <= 3 && inputHandler.isInventoryOpen()) {
             graphics.drawImage(inventoryImage.getSubimage(storyPose, inventoryPose * 450, 700, 450), 1280 / 2 - (700 / 2), 800 / 2 - (450 / 2), null);
         }
         if (gameModel.isLevelComplete()) {
             graphics.drawImage(levelCompleteImage.getSubimage(0, inventoryPose * 450, 700, 450), 1280 / 2 - (700 / 2), 800 / 2 - (450 / 2), null);
+        }
+        if (player.getCanAttack()){
+            graphics.drawImage(abilitiesImage.getSubimage(0, 0, 40, 40), 1280 / 2 - 40, 10, null);
+        }
+        if (player.isKeyPicked()){
+            graphics.drawImage(abilitiesImage.getSubimage(40, 0, 40, 40), 1280 / 2 - 90, 10, null);
+        }
+        if (player.getHyperRun()){
+            graphics.drawImage(abilitiesImage.getSubimage(80, 0, 40, 40), 1280 / 2 + 10, 10, null);
         }
     }
 }

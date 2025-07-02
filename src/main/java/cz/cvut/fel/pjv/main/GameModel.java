@@ -13,6 +13,7 @@ public class GameModel {
     private LevelLoader level;
     private GamePanel gamePanel;
     private boolean levelComplete = false;
+    private boolean levelCompleteSave = false;
     private int passedSectionsCount = 0;
 
     public GameModel(Player player, List<Platform> platforms, List<Entities> entities, LevelLoader level, GamePanel gamePanel) {
@@ -78,6 +79,7 @@ public class GameModel {
                 return false;
             }
         }
+        if (levelComplete) {return false;}
 
         return true;
     }
@@ -131,11 +133,21 @@ public class GameModel {
         return 0;
     }
 
+    public void save() {
+        if (!levelCompleteSave) {
+            level.savePlayerData("saved.txt");
+            System.out.println("Saved!");
+            levelCompleteSave = true;
+        }
 
-
+    }
 
 
     public boolean isLevelComplete() {
+        if(levelComplete){
+            GameEngine.setLevelNum();
+            save();
+        }
         return levelComplete;
     }
 
@@ -152,6 +164,7 @@ public class GameModel {
                     System.out.println("*Story*");
                     break;
             }
+            player.setOpenedChests(0);
         } else {
             System.out.println("All pieces of story are not collected yet!");
         }

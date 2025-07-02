@@ -1,0 +1,14 @@
+Level:
+0
+
+Location:
+0
+
+Coordinates:
+0
+
+Opened chests:
+0
+
+Inventory:
+

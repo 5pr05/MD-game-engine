@@ -2,6 +2,7 @@ package cz.cvut.fel.pjv.menu;
 
 import javax.swing.*;
 import cz.cvut.fel.pjv.main.*;
+import cz.cvut.fel.pjv.level.LevelLoader;
 
 public class LevelSelectionMenu extends BaseMenu {
     private JFrame levelSelectionFrame;
@@ -14,7 +15,8 @@ public class LevelSelectionMenu extends BaseMenu {
     }
 
     public void startLevel(int levelNum) {
-        this.gameEngine = new GameEngine(levelNum, "levels/level"+levelNum+".txt");
+        this.gameEngine = new GameEngine(levelNum, "levels/level" + levelNum + ".txt");
+        LevelLoader levelLoader = new LevelLoader(0, 0, "levels/level" + levelNum + ".txt");
         gameEngine.getPanel().setPreferredSize(levelSelectionFrame.getSize());
         this.window = new GameWindow(levelSelectionFrame, gameEngine.getPanel());
     }

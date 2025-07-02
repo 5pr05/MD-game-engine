@@ -14,6 +14,7 @@ public class PlayerController {
 
     private boolean onPlatform = false;
     private boolean abilityCreated = false;
+    private boolean savedOnce = false;
     private int jumpCounter = 0;
 
     private int groundYPosition = 720;
@@ -38,7 +39,7 @@ public class PlayerController {
     }
 
     private void transitionToNewLocation() {
-        player.setXPosition(0);
+        player.setXPosition(15);
         gameModel.loadNextSection();
     }
 
@@ -106,18 +107,22 @@ public class PlayerController {
         if (player.getXPosition() > 1280) {
             transitionToNewLocation();
         }
-        if (inputHandler.isButtonClicked() && !abilityCreated){
+        if (inputHandler.isLeftButtonClicked() && !abilityCreated){
             if (inputHandler.isInventoryOpen()) {
                 gameModel.createAbility();
                 abilityCreated = true;
-                inputHandler.setButtonClicked(true);
+                inputHandler.setLeftButtonClicked(true);
             } else if (gameModel.isLevelComplete()) {
                 gamePanel.backToLevels();
             }
         }
         if (!inputHandler.isInventoryOpen() && player.getOpenedChests() != 3) {
             abilityCreated = false;
-            inputHandler.setButtonClicked(false);
+            inputHandler.setLeftButtonClicked(false);
+        }
+        if (inputHandler.isInventoryOpen() && inputHandler.isRightButtonClicked() && !savedOnce){
+            gameModel.save();
+            savedOnce = true;
         }
     }
 

@@ -3,7 +3,6 @@ package cz.cvut.fel.pjv.main;
 import cz.cvut.fel.pjv.entities.*;
 import cz.cvut.fel.pjv.level.*;
 
-
 public class GameEngine implements Runnable {
     private GamePanel panel;
     private Thread gameLoopThread;
@@ -13,35 +12,32 @@ public class GameEngine implements Runnable {
     private GameRenderer gameRenderer;
 
     private PlayerController playerController;
+    private LevelLoader levelLoader;
 
     public GameEngine(int levelNum, String filename) {
         this.levelNum = levelNum;
         double xPosition = 30; // start x position
         double yPosition = 300; // start y position
 
-        LevelLoader level = new LevelLoader(xPosition, yPosition, filename);
+        levelLoader = new LevelLoader(xPosition, yPosition, filename);
 
-        panel = new GamePanel(level);
+        panel = new GamePanel(levelLoader);
         playerController = panel.getPlayerController();
         gameRenderer = panel.getGameRenderer();
         panel.requestFocus();
         startGameLoop();
     }
 
-
-    // start game loop
     private void startGameLoop() {
         running = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
     }
 
-    // stop game loop
     public void stopGameLoop() {
         running = false;
     }
 
-    // game loop
     @Override
     public void run() {
         double timePerUpdate = 1000000000.0 / TARGET_FPS;
@@ -64,14 +60,21 @@ public class GameEngine implements Runnable {
         }
     }
 
-    // level number getter
     public static int getLevelNum() {
         return levelNum;
     }
 
-    // game panel getter
+    public static void setLevelNum() {levelNum++;}
+
+    public static void setLevelNum(int levelNum) {
+        GameEngine.levelNum = levelNum;
+    }
+
     public GamePanel getPanel() {
         return panel;
     }
-}
 
+    public LevelLoader getLevelLoader() {
+        return levelLoader;
+    }
+}
