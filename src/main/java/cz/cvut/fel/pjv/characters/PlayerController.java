@@ -11,14 +11,15 @@ public class PlayerController {
     private static InputHandler inputHandler;
     private double horizontalMovement = 1.5;
     private int jumpSpeed = 3;
+    private int fallSpeed = 5;
     private boolean isJumping = false;
-    private boolean isFalling = true;
+    private boolean isFalling = false;
     private static GameRenderer gameRenderer;
 
     private boolean onPlatform = false;
     private int jumpCounter = 0;
     private static boolean alive = true;
-    private boolean canAttack = true;
+    private boolean canAttack = false;
     private int groundYPosition = 300;
     private double initialYPosition;
     public PlayerController(Player player, InputHandler inputHandler, Enemies[] enemies, Platform[] platforms, GameRenderer gameRenderer){
@@ -37,8 +38,21 @@ public class PlayerController {
 
     // move player horizontally
     public void moveHorizontally(double value){
-        player.setXPosition(player.getXPosition() + value * horizontalMovement);
+        double newXPosition = player.getXPosition() + value * horizontalMovement;
+
+        // collision
+        for (Platform platform : platforms) {
+            if (newXPosition < platform.getxPosition() + platform.getWidth() &&
+                    newXPosition + player.getHitboxWidth() > platform.getxPosition() &&
+                    player.getYPosition() < platform.getYPosition() + platform.getHeight() &&
+                    player.getYPosition() + player.getHitboxHeight() > platform.getYPosition()) {
+                return;
+            }
+        }
+
+        player.setXPosition(newXPosition);
     }
+
 
     // player jumps
     public void jump(int value){
@@ -48,6 +62,16 @@ public class PlayerController {
             isFalling = true;
             jumpCounter = 40;
         }
+    }
+
+    // can attack setter
+    public void setCanAttack(){
+        canAttack = true;
+    }
+
+    // can attack getter
+    public boolean getCanAttack(){
+        return canAttack;
     }
 
     // kill player
@@ -116,5 +140,4 @@ public class PlayerController {
             isFalling = false;
         }
     }
-
 }

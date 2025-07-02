@@ -1,6 +1,7 @@
 package cz.cvut.fel.pjv.main;
 
 import cz.cvut.fel.pjv.characters.*;
+import cz.cvut.fel.pjv.level.*;
 
 public class GameEngine implements Runnable{
     private GamePanel panel;
@@ -11,10 +12,21 @@ public class GameEngine implements Runnable{
 
     private PlayerController playerController;
 
-    public GameEngine() {
-        double xPosition = 0; // start x position
+    public GameEngine(int level) {
+        double xPosition = 100; // start x position
         double yPosition = 300; // start y position
-        panel = new GamePanel(xPosition, yPosition);
+
+        Level levelNum = null;
+        switch(level) {
+            case 1:
+                levelNum = new Level1(xPosition, yPosition);
+                break;
+            case 2:
+                levelNum = new Level2(xPosition, yPosition);
+                break;
+        }
+
+        panel = new GamePanel(levelNum);
         playerController = panel.getPlayerController();
         gameRenderer = panel.getGameRenderer();
         panel.requestFocus();

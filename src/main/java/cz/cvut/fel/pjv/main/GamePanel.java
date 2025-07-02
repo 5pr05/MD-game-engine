@@ -14,10 +14,10 @@ public class GamePanel extends JPanel {
     private PlayerController playerController;
     private GameRenderer gameRenderer;
 
-    public GamePanel(double xPosition, double yPosition){
-        this.player = new Player(xPosition, yPosition);
-        this.enemies = new Enemies[]{new Guard(300, 300, player), new Guard(600, 300, player), new Lava(700, 350, player)};
-        this.platforms = new Platform[]{new Platform(200, 250, 100,20), new Platform(450, 200, 100, 20)};
+    public GamePanel(Level level){
+        this.player = level.getPlayer();
+        this.enemies = level.getEnemies();
+        this.platforms = level.getPlatforms();
         this.playerController = new PlayerController(player, null, enemies, platforms, gameRenderer);
         InputHandler inputHandler = new InputHandler(playerController, this);
         playerController.setInputHandler(inputHandler);

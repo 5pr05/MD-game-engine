@@ -5,8 +5,7 @@ import javax.swing.*;
 
 public class Menu {
     private JFrame menuFrame;
-    private GameWindow window;
-    private GameEngine gameEngine;
+    private LevelSelectionMenu levelSelectionMenu;
 
     public Menu(MenuRenderer renderer) {
         this.menuFrame = renderer.setupMenuFrame();
@@ -15,9 +14,8 @@ public class Menu {
 
     // start game button
     public void startGame() {
-        this.gameEngine = new GameEngine();
-        gameEngine.getPanel().setPreferredSize(menuFrame.getSize());
-        this.window = new GameWindow(menuFrame, gameEngine.getPanel());
+        this.levelSelectionMenu = new LevelSelectionMenu(new MenuRenderer());
+        menuFrame.setVisible(false);
     }
 
     // create level button

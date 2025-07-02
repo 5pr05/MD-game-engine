@@ -20,5 +20,4 @@ public class GameWindow {
         gameFrame.setVisible(true);
         gamePanel.requestFocusInWindow();
     }
-
 }

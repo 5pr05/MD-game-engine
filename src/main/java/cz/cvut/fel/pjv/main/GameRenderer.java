@@ -41,7 +41,7 @@ public class GameRenderer {
             } else {
                 xPose = 0;
                 if (inputHandler != null) {
-                    if (inputHandler.isAttack()) {
+                    if (inputHandler.isAttack() && playerController.getCanAttack()) {
                         yPose = 4;
                     } else if (inputHandler.isRight()) {
                         yPose = 0;
@@ -59,18 +59,15 @@ public class GameRenderer {
                         if (enemies[i].isAlive()) {
                             if (enemies[i].getDirection() > 0) {
                                 enemies[i].yPose = 0;
-                            }
-                            else if (enemies[i].getDirection() <= 0) {
+                            } else if (enemies[i].getDirection() <= 0) {
                                 enemies[i].yPose = 1;
                             }
-                        }
-                        else{
+                        } else {
                             enemies[i].yPose = 2;
                         }
                     }
                 }
             }
-
             currentDelay = 0;
         } else {
             currentDelay++;
@@ -107,7 +104,7 @@ public class GameRenderer {
             }
         }
         for (Platform platform : platforms) {
-            graphics.drawImage(platformSprites.getSubimage(0, 0, 100, 20), platform.getxPosition(), platform.getYPosition(), null);
+            graphics.drawImage(platformSprites.getSubimage(0, 0, 100,800), platform.getxPosition(), platform.getYPosition(), null);
         }
     }
 }

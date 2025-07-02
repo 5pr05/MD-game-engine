@@ -4,7 +4,7 @@ import cz.cvut.fel.pjv.inputs.*;
 
 public class Player extends Characters{
     protected static double hitboxWidth = 40, hitboxHeight = 64;
-    protected static double attackRangeWidth = 50, attackRangeHeight = 84;
+    protected static double attackRangeWidth = 100, attackRangeHeight = 84;
     private static InputHandler inputHandler;
 
     public Player(double xPosition, double yPosition){
