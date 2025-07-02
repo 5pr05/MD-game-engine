@@ -17,6 +17,6 @@ public class Level1 extends Level {
 
     @Override
     public void createPlatforms() {
-        this.platforms = new Platform[]{new Platform(0, 0, 100,800),new Platform(110, 600, 100,800),new Platform(300, 500, 100,800), new Platform(450, 200, 100, 20)};
+        this.platforms = new Platform[]{new Platform(300, 250, 100,800), new Platform(450, 200, 100, 20)};
     }
 }

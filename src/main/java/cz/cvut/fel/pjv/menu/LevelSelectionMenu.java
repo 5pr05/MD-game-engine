@@ -1,31 +1,31 @@
 package cz.cvut.fel.pjv.menu;
 
+import javax.swing.*;
 import cz.cvut.fel.pjv.main.*;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-
-public class LevelSelectionMenu {
-
+public class LevelSelectionMenu extends BaseMenu {
     private JFrame levelSelectionFrame;
     private GameWindow window;
     private GameEngine gameEngine;
 
-    public LevelSelectionMenu(MenuRenderer renderer) {
-        this.levelSelectionFrame = renderer.setupLevelSelectionFrame();
-        renderer.addButtonsToLevelSelectionMenu(levelSelectionFrame, this);
+    public LevelSelectionMenu() {
+        this.levelSelectionFrame = setupFrame("Select Level");
+        addButtonToPanel(levelSelectionFrame, createLevelSelectionPanel(), "/lava_sprites.png");
     }
 
-    // start level button
     public void startLevel(int level) {
         this.gameEngine = new GameEngine(level);
         gameEngine.getPanel().setPreferredSize(levelSelectionFrame.getSize());
         this.window = new GameWindow(levelSelectionFrame, gameEngine.getPanel());
     }
 
-    // back button
-    public void back() {
-        levelSelectionFrame.dispose();
+    private JPanel createLevelSelectionPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+
+        addButton(panel, "Level 1", 100, 250, 200, 50, e -> startLevel(1), "/button.png");
+        addButton(panel, "Level 2", 300, 250, 200, 50, e -> startLevel(2), "/button.png");
+
+        return panel;
     }
 }

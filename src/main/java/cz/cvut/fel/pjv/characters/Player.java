@@ -1,11 +1,13 @@
 package cz.cvut.fel.pjv.characters;
 
-import cz.cvut.fel.pjv.inputs.*;
-
 public class Player extends Characters{
     protected static double hitboxWidth = 40, hitboxHeight = 64;
     protected static double attackRangeWidth = 100, attackRangeHeight = 84;
-    private static InputHandler inputHandler;
+    private double horizontalMovement = 1.5;
+    private int jumpSpeed = 3;
+    private int fallSpeed = 5;
+    private static boolean alive = true;
+    private boolean canAttack = true;
 
     public Player(double xPosition, double yPosition){
         super(xPosition, yPosition);
@@ -22,6 +24,12 @@ public class Player extends Characters{
     // player hitbox width getter
     public double getHitboxHeight() {return hitboxHeight;}
 
+    // player attack arrange width getter
+    public double getAttackRangeWidth() {return attackRangeWidth;}
+
+    // player attack arrange width getter
+    public double getAttackRangeHeight() {return attackRangeHeight;}
+
     // player x position setter
     public void setXPosition(double xPosition) {
         this.xPosition = xPosition;
@@ -36,4 +44,32 @@ public class Player extends Characters{
     public void setYPosition(double yPosition) {
         this.yPosition = yPosition;
     }
+
+    // player horizontal movement step getter
+    public double getHorizontalMovement(){
+        return horizontalMovement;
+    }
+
+    // player jump speed getter
+    public int getJumpSpeed(){
+        return jumpSpeed;
+    }
+
+    // can attack setter
+    public void setCanAttack(){
+        canAttack = true;
+    }
+
+    // can attack getter
+    public boolean getCanAttack(){
+        return canAttack;
+    }
+
+    // is player alive getter
+    public static boolean isAlive() {
+        return alive;
+    }
+
+    // kill player
+    public void kill() {alive =false;}
 }

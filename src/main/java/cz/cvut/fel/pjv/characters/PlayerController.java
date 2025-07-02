@@ -1,143 +1,100 @@
 package cz.cvut.fel.pjv.characters;
 
-import cz.cvut.fel.pjv.inputs.*;
-import cz.cvut.fel.pjv.level.*;
+import cz.cvut.fel.pjv.inputs.InputHandler;
 import cz.cvut.fel.pjv.main.*;
 
 public class PlayerController {
-    private Player player;
-    private Enemies[] enemies;
-    private Platform[] platforms;
+    private static Player player;
     private static InputHandler inputHandler;
-    private double horizontalMovement = 1.5;
-    private int jumpSpeed = 3;
-    private int fallSpeed = 5;
     private boolean isJumping = false;
     private boolean isFalling = false;
     private static GameRenderer gameRenderer;
+    private GameModel gameModel;
 
     private boolean onPlatform = false;
     private int jumpCounter = 0;
-    private static boolean alive = true;
-    private boolean canAttack = false;
+
     private int groundYPosition = 300;
     private double initialYPosition;
-    public PlayerController(Player player, InputHandler inputHandler, Enemies[] enemies, Platform[] platforms, GameRenderer gameRenderer){
+
+    public PlayerController(Player player, InputHandler inputHandler, GameRenderer gameRenderer, GameModel gameModel) {
         this.player = player;
         this.inputHandler = inputHandler;
+        this.gameRenderer = gameRenderer;
+        this.gameModel = gameModel;
         this.initialYPosition = player.getYPosition();
-        this.enemies = enemies;
-        this.platforms = platforms;
     }
 
-
-    // input handler setter
     public void setInputHandler(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
     }
 
-    // move player horizontally
-    public void moveHorizontally(double value){
-        double newXPosition = player.getXPosition() + value * horizontalMovement;
-
-        // collision
-        for (Platform platform : platforms) {
-            if (newXPosition < platform.getxPosition() + platform.getWidth() &&
-                    newXPosition + player.getHitboxWidth() > platform.getxPosition() &&
-                    player.getYPosition() < platform.getYPosition() + platform.getHeight() &&
-                    player.getYPosition() + player.getHitboxHeight() > platform.getYPosition()) {
-                return;
-            }
+    public void moveHorizontally(double value) {
+        double newXPosition = player.getXPosition() + value * player.getHorizontalMovement();
+        if (gameModel.canMoveHorizontally(newXPosition)) {
+            player.setXPosition(newXPosition);
         }
-
-        player.setXPosition(newXPosition);
     }
 
-
-    // player jumps
-    public void jump(int value){
+    public void jump(int value) {
         if (!isJumping && !isFalling) {
-            player.setYPosition(player.getYPosition() - value * jumpSpeed);
+            player.setYPosition(player.getYPosition() - value * player.getJumpSpeed());
             isJumping = true;
             isFalling = true;
             jumpCounter = 40;
         }
     }
 
-    // can attack setter
-    public void setCanAttack(){
-        canAttack = true;
-    }
 
-    // can attack getter
-    public boolean getCanAttack(){
-        return canAttack;
-    }
-
-    // kill player
-    public static void kill(){
-        alive = false;
-        System.out.println("Player killed!");
-        inputHandler = null;
-    }
-    public static boolean isAlive() {
-        return alive;
-    }
-
-    // attack
     public void attack() {
-        if (canAttack){
-            for (Enemies enemy : enemies) {
-                if (enemy != null) {
-                    if ((Math.abs(enemy.getEnemiesXPosition() - player.getXPosition()) <= Player.attackRangeWidth) &&
-                            (Math.abs(enemy.getEnemiesYPosition() - player.getYPosition()) <= Player.attackRangeHeight)) {
-                        if (enemy.isAlive()) {
-                            enemy.kill();
-                        }
-                    }
-                }
-            }
+        if (player.getCanAttack()) {
+            gameModel.attackEnemies();
         }
     }
 
-    // update player
     public void update() {
-        if (inputHandler != null) {
+        if (player.isAlive()) {
             if (inputHandler.isLeft()) {
-                moveHorizontally(-horizontalMovement);
+                moveHorizontally(-player.getHorizontalMovement());
             }
             if (inputHandler.isRight()) {
-                moveHorizontally(horizontalMovement);
+                moveHorizontally(player.getHorizontalMovement());
             }
-            if (inputHandler.isJump()) {
-                jump(jumpSpeed);
+            if (inputHandler.isJump() && !isJumping && !isFalling) {
+                jump(player.getJumpSpeed());
             }
             if (inputHandler.isAttack()) {
                 attack();
             }
         }
-        if (alive && isJumping && !isFalling && jumpCounter > 0) {
-            player.setYPosition(player.getYPosition() - jumpSpeed);
+
+        if (isJumping) {
+            player.setYPosition(player.getYPosition() - player.getJumpSpeed());
             jumpCounter--;
-            if (jumpCounter == 0) {
+            if (jumpCounter <= 0) {
                 isJumping = false;
+                isFalling = true;
             }
-        } else if (!onPlatform && player.getYPosition() < groundYPosition) {
-            player.setYPosition(player.getYPosition() + jumpSpeed);
+        } else if (isFalling) {
+            player.setYPosition(player.getYPosition() + player.getJumpSpeed());
         }
-        onPlatform = false;
-        for (Platform platform : platforms) {
-            if (platform.isPlayerOnPlatform(player)) {
-                isFalling = false;
-                player.setYPosition(platform.getYPosition() - 64);
-                initialYPosition = player.getYPosition();
-                onPlatform = true;
-                break;
-            }
-        }
-        if (!onPlatform && player.getYPosition() >= groundYPosition) {
-            initialYPosition = player.getYPosition();
+
+        onPlatform = gameModel.isPlayerOnPlatform();
+        if (onPlatform) {
             isFalling = false;
+            isJumping = false;
+            jumpCounter = 0;
+        } else if (player.getYPosition() >= groundYPosition) {
+            isFalling = false;
+            isJumping = false;
+            jumpCounter = 0;
+            player.setYPosition(groundYPosition);
+        } else {
+            isFalling = true;
+        }
+
+        if (gameModel.isPlayerCollidingWithEnemy()) {
+            player.kill();
         }
     }
 }

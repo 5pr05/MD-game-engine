@@ -1,7 +1,6 @@
 package cz.cvut.fel.pjv.inputs;
 
-import cz.cvut.fel.pjv.characters.Player;
-import cz.cvut.fel.pjv.characters.PlayerController;
+import cz.cvut.fel.pjv.characters.*;
 import cz.cvut.fel.pjv.main.GamePanel;
 import java.awt.event.*;
 

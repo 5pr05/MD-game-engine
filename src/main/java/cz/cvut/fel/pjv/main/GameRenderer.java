@@ -41,7 +41,7 @@ public class GameRenderer {
             } else {
                 xPose = 0;
                 if (inputHandler != null) {
-                    if (inputHandler.isAttack() && playerController.getCanAttack()) {
+                    if (inputHandler.isAttack() && player.getCanAttack()) {
                         yPose = 4;
                     } else if (inputHandler.isRight()) {
                         yPose = 0;
@@ -51,7 +51,7 @@ public class GameRenderer {
                         yPose = 2;
                     }
                 }
-                if (!playerController.isAlive()) {
+                if (!player.isAlive()) {
                     yPose = 3;
                 }
                 for (int i = 0; i <= 1; i++) {

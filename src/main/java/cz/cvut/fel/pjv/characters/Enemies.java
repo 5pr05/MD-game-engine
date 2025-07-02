@@ -61,13 +61,6 @@ public class Enemies extends Characters {
             enemiesXPosition = this.xPosition;
             enemiesYPosition = this.yPosition;
         }
-
-        // hitbox logic
-        if (isAlive() && (Math.abs(enemiesXPosition - playerXPosition) <= Player.hitboxWidth) && (Math.abs(enemiesYPosition - playerYPosition) <= Player.hitboxHeight)) {
-            if (PlayerController.isAlive()) {
-                PlayerController.kill();
-            }
-        }
     }
 
 }

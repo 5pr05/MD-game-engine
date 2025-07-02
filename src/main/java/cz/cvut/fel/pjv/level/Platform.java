@@ -1,7 +1,5 @@
 package cz.cvut.fel.pjv.level;
 
-import cz.cvut.fel.pjv.characters.Player;
-
 public class Platform {
     private int xPosition, yPosition;
     private int width, height;
@@ -31,21 +29,5 @@ public class Platform {
     // height getter
     public int getHeight() {
         return height;
-    }
-
-    // check if player is on platform
-    public boolean isPlayerOnPlatform(Player player) {
-        int playerX = (int) player.getXPosition();
-        int playerY = (int) player.getYPosition();
-        double playerWidth = player.getHitboxWidth();
-        double playerHeight = player.getHitboxHeight();
-
-        if (playerY + playerHeight >= yPosition && playerY + playerHeight <= yPosition + height) {
-            if (playerX + playerWidth > xPosition && playerX < xPosition + width) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

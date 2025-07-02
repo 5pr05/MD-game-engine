@@ -4,8 +4,7 @@ import cz.cvut.fel.pjv.menu.*;
 
 public class Main {
     public static void main(String[] args) {
-        MenuRenderer renderer = new MenuRenderer();
-        new Menu(renderer);
+        new Menu();
         //new GameEngine();
     }
 }

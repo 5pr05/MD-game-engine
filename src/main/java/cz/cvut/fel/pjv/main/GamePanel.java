@@ -6,6 +6,7 @@ import cz.cvut.fel.pjv.level.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class GamePanel extends JPanel {
     private Player player;
@@ -13,12 +14,14 @@ public class GamePanel extends JPanel {
     private Platform[] platforms;
     private PlayerController playerController;
     private GameRenderer gameRenderer;
+    private GameModel gameModel;
 
-    public GamePanel(Level level){
+    public GamePanel(Level level) {
         this.player = level.getPlayer();
         this.enemies = level.getEnemies();
         this.platforms = level.getPlatforms();
-        this.playerController = new PlayerController(player, null, enemies, platforms, gameRenderer);
+        this.gameModel = new GameModel(player, Arrays.asList(platforms), Arrays.asList(enemies));
+        this.playerController = new PlayerController(player, null, gameRenderer, gameModel);
         InputHandler inputHandler = new InputHandler(playerController, this);
         playerController.setInputHandler(inputHandler);
         this.gameRenderer = new GameRenderer(player, enemies, platforms, playerController, inputHandler);
@@ -28,7 +31,6 @@ public class GamePanel extends JPanel {
         this.requestFocusInWindow();
         initializePanel();
     }
-
 
     // input handler setter
     public void setInputHandler(InputHandler inputHandler) {
@@ -53,7 +55,7 @@ public class GamePanel extends JPanel {
 
     // draw components
     @Override
-    public void paintComponent (Graphics graphics){
+    public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         gameRenderer.render(graphics);
     }
