@@ -2,13 +2,11 @@ package cz.cvut.fel.pjv.level;
 
 public class Platform {
     private int xPosition, yPosition;
-    private int width, height;
+    private int width = 20, height = 20;
 
-    public Platform(int xPosition, int yPosition, int width, int height) {
+    public Platform(int xPosition, int yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.width = width;
-        this.height = height;
     }
 
     // x position getter

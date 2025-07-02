@@ -13,8 +13,8 @@ public class LevelSelectionMenu extends BaseMenu {
         addButtonToPanel(levelSelectionFrame, createLevelSelectionPanel(), "/lava_sprites.png");
     }
 
-    public void startLevel(int level) {
-        this.gameEngine = new GameEngine(level);
+    public void startLevel(int levelNum) {
+        this.gameEngine = new GameEngine(levelNum, "levels/level"+levelNum+".txt");
         gameEngine.getPanel().setPreferredSize(levelSelectionFrame.getSize());
         this.window = new GameWindow(levelSelectionFrame, gameEngine.getPanel());
     }

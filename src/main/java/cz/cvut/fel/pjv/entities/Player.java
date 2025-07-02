@@ -1,6 +1,6 @@
-package cz.cvut.fel.pjv.characters;
+package cz.cvut.fel.pjv.entities;
 
-public class Player extends Characters{
+public class Player {
     protected static double hitboxWidth = 40, hitboxHeight = 64;
     protected static double attackRangeWidth = 100, attackRangeHeight = 84;
     private double horizontalMovement = 1.5;
@@ -9,8 +9,12 @@ public class Player extends Characters{
     private boolean canAttack = false;
     private int openedChests = 0;
 
+    private double xPosition;
+    private double yPosition;
+
     public Player(double xPosition, double yPosition){
-        super(xPosition, yPosition);
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
     }
 
     // player x position getter

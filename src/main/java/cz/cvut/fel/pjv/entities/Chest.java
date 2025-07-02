@@ -1,6 +1,6 @@
-package cz.cvut.fel.pjv.characters;
+package cz.cvut.fel.pjv.entities;
 
-public class Chest extends Enemies{
+public class Chest extends Entities {
 
     public Chest(double xPosition, double yPosition) {
         super(xPosition, yPosition);

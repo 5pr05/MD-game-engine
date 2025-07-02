@@ -1,6 +1,6 @@
 package cz.cvut.fel.pjv.main;
 
-import cz.cvut.fel.pjv.characters.*;
+import cz.cvut.fel.pjv.entities.*;
 import cz.cvut.fel.pjv.inputs.*;
 import cz.cvut.fel.pjv.level.*;
 
@@ -14,7 +14,7 @@ public class GameRenderer {
     private Player player;
     private GameModel gameModel;
     private InputHandler inputHandler;
-    private Enemies[] enemies;
+    private Entities[] entities;
     private Platform[] platforms;
     private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites, inventoryImage, chestSprites, levelCompleteImage;
     private BufferedImage[] stories;
@@ -25,9 +25,9 @@ public class GameRenderer {
     private int delay = 20;
     private int currentDelay = 0;
 
-    public GameRenderer(Player player, Enemies[] enemies, Platform[] platforms, InputHandler inputHandler, GameModel gameModel) {
+    public GameRenderer(Player player, Entities[] entities, Platform[] platforms, InputHandler inputHandler, GameModel gameModel) {
         this.player = player;
-        this.enemies = enemies;
+        this.entities = entities;
         this.platforms = platforms;
         this.inputHandler = inputHandler;
         this.gameModel = gameModel;
@@ -69,16 +69,16 @@ public class GameRenderer {
                         inventoryPose = 3;
                         break;
                 }
-                for (int i = 0; i < enemies.length; i++) {
-                    if (enemies[i] != null) {
-                        if (enemies[i].isAlive()) {
-                            if (enemies[i].getDirection() > 0) {
-                                enemies[i].yPose = 0;
-                            } else if (enemies[i].getDirection() <= 0) {
-                                enemies[i].yPose = 1;
+                for (int i = 0; i < entities.length; i++) {
+                    if (entities[i] != null) {
+                        if (entities[i].isAlive()) {
+                            if (entities[i].getDirection() > 0) {
+                                entities[i].yPose = 0;
+                            } else if (entities[i].getDirection() <= 0) {
+                                entities[i].yPose = 1;
                             }
                         } else {
-                            enemies[i].yPose = 2;
+                            entities[i].yPose = 2;
                         }
                     }
                 }
@@ -89,8 +89,8 @@ public class GameRenderer {
         }
     }
 
-    public void updateGameObjects(Enemies[] newEnemies, Platform[] newPlatforms) {
-        this.enemies = newEnemies;
+    public void updateGameObjects(Entities[] newEntities, Platform[] newPlatforms) {
+        this.entities = newEntities;
         this.platforms = newPlatforms;
     }
 
@@ -121,16 +121,16 @@ public class GameRenderer {
     // render graphics
     public void render(Graphics graphics) {
         graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, yPose * spriteHeight, spriteWidth, spriteHeight), (int) player.getXPosition(), (int) player.getYPosition(), null);
-        for (Enemies enemy : enemies) {
-            if (enemy instanceof Guard) {
-                graphics.drawImage(guardSprites.getSubimage(xPose * spriteWidth, enemy.yPose * spriteHeight, spriteWidth, spriteHeight), (int) enemy.getEnemiesXPosition(), (int) enemy.getEnemiesYPosition(), null);
-            } else if (enemy instanceof Lava) {
-                graphics.drawImage(lavaSprites.getSubimage(xPose * 100, 1, 100, 20), (int) enemy.getEnemiesXPosition(), (int) enemy.getEnemiesYPosition(), null);
-            } else if (enemy instanceof Chest) {
-                graphics.drawImage(chestSprites.getSubimage(xPose * 40, enemy.yPose * 40, 40, 40), (int) enemy.getEnemiesXPosition(), (int) enemy.getEnemiesYPosition(), null);
+        for (Entities entity : entities) {
+            if (entity instanceof Guard) {
+                graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, entity.yPose * spriteHeight, spriteWidth, spriteHeight), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()-14, null);
+            } else if (entity instanceof Lava) {
+                graphics.drawImage(platformSprites.getSubimage(xPose * 100, 1, 20, 50), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition(), null);
+            } else if (entity instanceof Chest) {
+                graphics.drawImage(chestSprites.getSubimage(xPose * 40, entity.yPose * 40, 40, 40), (int) entity.getEntitiesXPosition(), (int) entity.getEntitiesYPosition()+10, null);
             }
             for (Platform platform : platforms) {
-                graphics.drawImage(platformSprites.getSubimage(0, 0, 100, 800), platform.getxPosition(), platform.getYPosition(), null);
+                graphics.drawImage(platformSprites.getSubimage(0, 0, 20, 20), platform.getxPosition(), platform.getYPosition(), null);
             }
         }
         if(player.getOpenedChests() == 3 && inputHandler.isInventoryOpen() && inputHandler.isButtonClicked()) {

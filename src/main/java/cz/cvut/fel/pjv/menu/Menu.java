@@ -13,10 +13,12 @@ public class Menu extends BaseMenu {
 
     public void startGame() {
         this.levelSelectionMenu = new LevelSelectionMenu();
-        menuFrame.setVisible(false);
+        menuFrame.dispose();
     }
 
     public void createLevel() {
+        new LevelCreatorMenu();
+        menuFrame.dispose();
     }
 
     public void quit() {

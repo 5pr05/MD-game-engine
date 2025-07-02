@@ -1,6 +1,6 @@
 package cz.cvut.fel.pjv.main;
 
-import cz.cvut.fel.pjv.characters.*;
+import cz.cvut.fel.pjv.entities.*;
 import cz.cvut.fel.pjv.level.*;
 
 import java.util.ArrayList;
@@ -9,28 +9,28 @@ import java.util.List;
 public class GameModel {
     private Player player;
     private List<Platform> platforms;
-    private List<Enemies> enemies;
-    private Level level;
+    private List<Entities> entities;
+    private LevelLoader level;
     private GamePanel gamePanel;
     private boolean levelComplete = false;
     private int passedSectionsCount = 0;
 
-    public GameModel(Player player, List<Platform> platforms, List<Enemies> enemies, Level level, GamePanel gamePanel) {
+    public GameModel(Player player, List<Platform> platforms, List<Entities> entities, LevelLoader level, GamePanel gamePanel) {
         this.player = player;
         this.platforms = new ArrayList<>(platforms);
-        this.enemies = new ArrayList<>(enemies);
+        this.entities = new ArrayList<>(entities);
         this.level = level;
         this.gamePanel = gamePanel;
     }
 
     public void loadNextSection() {
         level.nextSection();
-        enemies.clear();
+        entities.clear();
         platforms.clear();
-        enemies.addAll(List.of(level.getEnemies()));
+        entities.addAll(List.of(level.getEntities()));
         platforms.addAll(List.of(level.getPlatforms()));
         System.out.println("New section!");
-        gamePanel.updateGameObjects(level.getEnemies(), level.getPlatforms());
+        gamePanel.updateGameObjects(level.getEntities(), level.getPlatforms());
 
         passedSectionsCount++;
         if (passedSectionsCount == 4) {
@@ -72,39 +72,39 @@ public class GameModel {
         return true;
     }
 
-    public void attackEnemies() {
-        for (Enemies enemy : enemies) {
-            if (enemy != null && enemy.isAlive()) {
-                if ((Math.abs(enemy.getEnemiesXPosition() - player.getXPosition()) <= player.getAttackRangeWidth()) &&
-                        (Math.abs(enemy.getEnemiesYPosition() - player.getYPosition()) <= player.getAttackRangeHeight())) {
-                    if (enemy.isChest()) {
+    public void attackEntities() {
+        for (Entities entity : entities) {
+            if (entity != null && entity.isAlive()) {
+                if ((Math.abs(entity.getEntitiesXPosition() - player.getXPosition()) <= player.getAttackRangeWidth()) &&
+                        (Math.abs(entity.getEntitiesYPosition() - player.getYPosition()) <= player.getAttackRangeHeight())) {
+                    if (entity.isChest()) {
                         player.openChest();
                         System.out.println(player.getOpenedChests());
                     }
-                    if (enemy.isChest()) {
-                        enemy.kill();
+                    if (entity.isChest()) {
+                        entity.kill();
                     } else if (player.getCanAttack()) {
-                        enemy.kill();
+                        entity.kill();
                     }
                 }
             }
         }
     }
 
-    public int isPlayerCollidingWithEnemy() {
-        for (Enemies enemy : enemies) {
-            if (enemy != null && enemy.isAlive()) {
+    public int isPlayerCollidingWithEntity() {
+        for (Entities entity : entities) {
+            if (entity != null && entity.isAlive()) {
                 double playerXPosition = player.getXPosition();
                 double playerYPosition = player.getYPosition();
 
-                double enemyXPosition = enemy.getEnemiesXPosition();
-                double enemyYPosition = enemy.getEnemiesYPosition();
+                double entityXPosition = entity.getEntitiesXPosition();
+                double entityYPosition = entity.getEntitiesYPosition();
 
-                if ((Math.abs(enemyXPosition - playerXPosition) <= player.getHitboxWidth()) &&
-                        (Math.abs(enemyYPosition - playerYPosition) <= player.getHitboxHeight())) {
-                    if (enemy.isChest()) {
+                if ((Math.abs(entityXPosition - playerXPosition) <= player.getHitboxWidth()) &&
+                        (Math.abs(entityYPosition - playerYPosition) <= player.getHitboxHeight())) {
+                    if (entity.isChest() || entity.isKey() || entity.isDoor()) {
                         return 1;
-                    } else {
+                    } else if (entity.isEnemy()){
                         return 0;
                     }
                 }

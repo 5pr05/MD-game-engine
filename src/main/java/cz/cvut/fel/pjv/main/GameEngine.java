@@ -1,7 +1,8 @@
 package cz.cvut.fel.pjv.main;
 
-import cz.cvut.fel.pjv.characters.*;
+import cz.cvut.fel.pjv.entities.*;
 import cz.cvut.fel.pjv.level.*;
+
 
 public class GameEngine implements Runnable {
     private GamePanel panel;
@@ -13,20 +14,12 @@ public class GameEngine implements Runnable {
 
     private PlayerController playerController;
 
-    public GameEngine(int levelNum) {
+    public GameEngine(int levelNum, String filename) {
         this.levelNum = levelNum;
-        double xPosition = 100; // start x position
+        double xPosition = 30; // start x position
         double yPosition = 300; // start y position
 
-        Level level = null;
-        switch (levelNum) {
-            case 1:
-                level = new Level1(xPosition, yPosition);
-                break;
-            case 2:
-                level = new Level2(xPosition, yPosition);
-                break;
-        }
+        LevelLoader level = new LevelLoader(xPosition, yPosition, filename);
 
         panel = new GamePanel(level);
         playerController = panel.getPlayerController();
@@ -81,3 +74,4 @@ public class GameEngine implements Runnable {
         return panel;
     }
 }
+

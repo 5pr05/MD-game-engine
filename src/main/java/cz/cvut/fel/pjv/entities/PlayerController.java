@@ -1,4 +1,4 @@
-package cz.cvut.fel.pjv.characters;
+package cz.cvut.fel.pjv.entities;
 
 import cz.cvut.fel.pjv.inputs.InputHandler;
 import cz.cvut.fel.pjv.main.*;
@@ -16,7 +16,7 @@ public class PlayerController {
     private boolean abilityCreated = false;
     private int jumpCounter = 0;
 
-    private int groundYPosition = 300;
+    private int groundYPosition = 720;
     private double initialYPosition;
 
     public PlayerController(Player player, InputHandler inputHandler, GameRenderer gameRenderer, GameModel gameModel, GamePanel gamePanel) {
@@ -52,7 +52,7 @@ public class PlayerController {
     }
 
     public void attack() {
-        gameModel.attackEnemies();
+        gameModel.attackEntities();
     }
 
     public void update() {
@@ -95,7 +95,7 @@ public class PlayerController {
         } else {
             isFalling = true;
         }
-        if (gameModel.isPlayerCollidingWithEnemy() == 0) {
+        if (gameModel.isPlayerCollidingWithEntity() == 0) {
             player.kill();
         }
         if (player.getXPosition() > 1280) {
