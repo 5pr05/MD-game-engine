@@ -6,6 +6,7 @@ import cz.cvut.fel.pjv.level.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,20 +16,18 @@ public class GameRenderer {
     private InputHandler inputHandler;
     private Enemies[] enemies;
     private Platform[] platforms;
-    private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites;
-    private PlayerController playerController;
-    private int xPose, yPose;
+    private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites, inventoryImage, chestSprites;
+    private int xPose, yPose, inventoryPose;
     private int spriteWidth = 40;
     private int spriteHeight = 64;
     private int numSpritesX = 3;
     private int delay = 20;
     private int currentDelay = 0;
 
-    public GameRenderer(Player player, Enemies[] enemies, Platform[] platforms, PlayerController playerController, InputHandler inputHandler) {
+    public GameRenderer(Player player, Enemies[] enemies, Platform[] platforms, InputHandler inputHandler) {
         this.player = player;
         this.enemies = enemies;
         this.platforms = platforms;
-        this.playerController = playerController;
         this.inputHandler = inputHandler;
         importImages();
     }
@@ -53,6 +52,20 @@ public class GameRenderer {
                 }
                 if (!player.isAlive()) {
                     yPose = 3;
+                }
+                switch (player.getOpenedChests()){
+                    case 0:
+                        inventoryPose = 0;
+                        break;
+                    case 1:
+                        inventoryPose = 1;
+                        break;
+                    case 2:
+                        inventoryPose = 2;
+                        break;
+                    case 3:
+                        inventoryPose = 3;
+                        break;
                 }
                 for (int i = 0; i <= 1; i++) {
                     if (enemies[i] != null) {
@@ -82,6 +95,8 @@ public class GameRenderer {
         guardSprites = importImage("/guard_sprites.png");
         lavaSprites = importImage("/lava_sprites.png");
         platformSprites = importImage("/platform_sprite.png");
+        inventoryImage = importImage("/inventory.jpg");
+        chestSprites = importImage("/guard_sprites.png");
     }
 
     private BufferedImage importImage(String path) {
@@ -95,16 +110,22 @@ public class GameRenderer {
 
     // render graphics
     public void render(Graphics graphics) {
-        graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, yPose * spriteHeight, spriteWidth, spriteHeight), (int)player.getXPosition(), (int)player.getYPosition(), null);
+        graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, yPose * spriteHeight, spriteWidth, spriteHeight), (int) player.getXPosition(), (int) player.getYPosition(), null);
         for (Enemies enemy : enemies) {
             if (enemy instanceof Guard) {
-                graphics.drawImage(guardSprites.getSubimage(xPose * spriteWidth, enemy.yPose * spriteHeight, spriteWidth, spriteHeight), (int)enemy.getEnemiesXPosition(), (int)enemy.getEnemiesYPosition(), null);
+                graphics.drawImage(guardSprites.getSubimage(xPose * spriteWidth, enemy.yPose * spriteHeight, spriteWidth, spriteHeight), (int) enemy.getEnemiesXPosition(), (int) enemy.getEnemiesYPosition(), null);
             } else if (enemy instanceof Lava) {
-                graphics.drawImage(lavaSprites.getSubimage(xPose * 100, 1, 100, 20), (int)enemy.getEnemiesXPosition(), (int)enemy.getEnemiesYPosition(), null);
+                graphics.drawImage(lavaSprites.getSubimage(xPose * 100, 1, 100, 20), (int) enemy.getEnemiesXPosition(), (int) enemy.getEnemiesYPosition(), null);
+            } else if (enemy instanceof Chest) {
+                graphics.drawImage(chestSprites.getSubimage(xPose * 40, enemy.yPose*40, 40, 40), (int) enemy.getEnemiesXPosition(), (int) enemy.getEnemiesYPosition(), null);
             }
-        }
-        for (Platform platform : platforms) {
-            graphics.drawImage(platformSprites.getSubimage(0, 0, 100,800), platform.getxPosition(), platform.getYPosition(), null);
+            for (Platform platform : platforms) {
+                graphics.drawImage(platformSprites.getSubimage(0, 0, 100, 800), platform.getxPosition(), platform.getYPosition(), null);
+            }
+            if (inputHandler.isInventoryOpen()) {
+                graphics.drawImage(inventoryImage.getSubimage(0, inventoryPose*450, 700, 450), 1280 / 2 - (700 / 2), 800 / 2 - (450 / 2), null);
+                graphics.setColor(Color.BLUE);
+                graphics.fillRect(inputHandler.getButtonX(), inputHandler.getButtonY(), inputHandler.getButtonWidth(), inputHandler.getButtonHeight());}
         }
     }
 }

@@ -5,9 +5,9 @@ public class Player extends Characters{
     protected static double attackRangeWidth = 100, attackRangeHeight = 84;
     private double horizontalMovement = 1.5;
     private int jumpSpeed = 3;
-    private int fallSpeed = 5;
     private static boolean alive = true;
-    private boolean canAttack = true;
+    private boolean canAttack = false;
+    private int openedChests = 0;
 
     public Player(double xPosition, double yPosition){
         super(xPosition, yPosition);
@@ -50,6 +50,9 @@ public class Player extends Characters{
         return horizontalMovement;
     }
 
+    // player horizontal movement step booster
+    public void setHorizontalMovement() {horizontalMovement = 3;}
+
     // player jump speed getter
     public int getJumpSpeed(){
         return jumpSpeed;
@@ -72,4 +75,10 @@ public class Player extends Characters{
 
     // kill player
     public void kill() {alive =false;}
+
+    // opened chest setter
+    public void openChest(){openedChests++;}
+
+    // opened chest getter
+    public int getOpenedChests(){return openedChests;}
 }

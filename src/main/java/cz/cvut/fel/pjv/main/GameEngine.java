@@ -8,25 +8,27 @@ public class GameEngine implements Runnable{
     private Thread gameLoopThread;
     private final int TARGET_FPS = 120;
     private boolean running = false;
+    private static int levelNum;
     private GameRenderer gameRenderer;
 
     private PlayerController playerController;
 
-    public GameEngine(int level) {
+    public GameEngine(int levelNum) {
+        this.levelNum = levelNum;
         double xPosition = 100; // start x position
         double yPosition = 300; // start y position
 
-        Level levelNum = null;
-        switch(level) {
+        Level level = null;
+        switch(levelNum) {
             case 1:
-                levelNum = new Level1(xPosition, yPosition);
+                level = new Level1(xPosition, yPosition);
                 break;
             case 2:
-                levelNum = new Level2(xPosition, yPosition);
+                level = new Level2(xPosition, yPosition);
                 break;
         }
 
-        panel = new GamePanel(levelNum);
+        panel = new GamePanel(level);
         playerController = panel.getPlayerController();
         gameRenderer = panel.getGameRenderer();
         panel.requestFocus();
@@ -67,6 +69,9 @@ public class GameEngine implements Runnable{
             }
         }
     }
+
+    // level number getter
+    public static int getLevelNum() {return levelNum;}
 
     // game panel getter
     public GamePanel getPanel() {

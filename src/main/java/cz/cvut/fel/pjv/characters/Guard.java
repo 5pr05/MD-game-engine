@@ -3,8 +3,8 @@ package cz.cvut.fel.pjv.characters;
 public class Guard extends Enemies{
     private static final double MOVE_AMOUNT = 0.2;
 
-    public Guard(double xPosition, double yPosition, Player player) {
-        super(xPosition, yPosition, player);
+    public Guard(double xPosition, double yPosition) {
+        super(xPosition, yPosition);
     }
 
     // move guard horizontally

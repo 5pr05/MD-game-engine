@@ -22,9 +22,9 @@ public class GamePanel extends JPanel {
         this.platforms = level.getPlatforms();
         this.gameModel = new GameModel(player, Arrays.asList(platforms), Arrays.asList(enemies));
         this.playerController = new PlayerController(player, null, gameRenderer, gameModel);
-        InputHandler inputHandler = new InputHandler(playerController, this);
+        InputHandler inputHandler = new InputHandler(playerController, this, gameModel);
         playerController.setInputHandler(inputHandler);
-        this.gameRenderer = new GameRenderer(player, enemies, platforms, playerController, inputHandler);
+        this.gameRenderer = new GameRenderer(player, enemies, platforms, inputHandler);
         this.addKeyListener(inputHandler);
         this.addMouseListener(inputHandler);
         this.setFocusable(true);

@@ -1,8 +1,8 @@
 package cz.cvut.fel.pjv.characters;
 
 public class Enemies extends Characters {
-    private Player player;
     protected boolean isLava = false;
+    protected boolean isChest = false;
     protected int direction = 1;
 
     protected double enemiesXPosition = this.xPosition;
@@ -11,9 +11,8 @@ public class Enemies extends Characters {
 
     public int yPose = 0;
 
-    public Enemies(double xPosition, double yPosition, Player player) {
+    public Enemies(double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        this.player = player;
     }
 
     // enemies x position getter
@@ -38,7 +37,11 @@ public class Enemies extends Characters {
     public void kill() {
         if (!isLava) {
             alive = false;
-            System.out.println("Enemy killed!");
+            if (isChest){
+                System.out.println("Chest opened!");
+            } else {
+                System.out.println("Enemy killed!");
+            }
         }
     }
 
@@ -47,11 +50,11 @@ public class Enemies extends Characters {
         return alive;
     }
 
+    // is chest getter
+    public boolean isChest() {return isChest;}
+
     // update enemy
     public void update() {
-        double playerXPosition = player.getXPosition();
-        double playerYPosition = player.getYPosition();
-
         if (this instanceof Guard) {
             Guard guard = (Guard) this;
             enemiesXPosition = guard.xPosition;

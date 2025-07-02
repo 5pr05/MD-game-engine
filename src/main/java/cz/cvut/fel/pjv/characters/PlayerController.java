@@ -46,11 +46,7 @@ public class PlayerController {
     }
 
 
-    public void attack() {
-        if (player.getCanAttack()) {
-            gameModel.attackEnemies();
-        }
-    }
+    public void attack() { gameModel.attackEnemies();}
 
     public void update() {
         if (player.isAlive()) {
@@ -93,7 +89,7 @@ public class PlayerController {
             isFalling = true;
         }
 
-        if (gameModel.isPlayerCollidingWithEnemy()) {
+        if (gameModel.isPlayerCollidingWithEnemy() == 0) {
             player.kill();
         }
     }

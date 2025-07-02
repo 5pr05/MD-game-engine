@@ -12,7 +12,14 @@ public class Level1 extends Level {
 
     @Override
     public void createEnemies() {
-        this.enemies = new Enemies[]{new Guard(300, 300, player), new Guard(600, 300, player), new Lava(700, 350, player)};
+        this.enemies = new Enemies[]{
+                new Guard(300, 300),
+                new Guard(600, 300),
+                new Lava(700, 350),
+                new Chest(30, 300),
+                new Chest(90, 300),
+                new Chest(130, 300)
+        };
     }
 
     @Override

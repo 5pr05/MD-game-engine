@@ -26,7 +26,7 @@ public class GameModel {
                     playerY + playerHeight <= platform.getYPosition() + platform.getHeight() &&
                     playerX + playerWidth > platform.getxPosition() &&
                     playerX < platform.getxPosition() + platform.getWidth()) {
-                player.setYPosition(platform.getYPosition() - playerHeight);  // Correctly adjust player's position
+                player.setYPosition(platform.getYPosition() - playerHeight);
                 return true;
             }
         }
@@ -54,13 +54,21 @@ public class GameModel {
             if (enemy != null && enemy.isAlive()) {
                 if ((Math.abs(enemy.getEnemiesXPosition() - player.getXPosition()) <= player.getAttackRangeWidth()) &&
                         (Math.abs(enemy.getEnemiesYPosition() - player.getYPosition()) <= player.getAttackRangeHeight())) {
-                    enemy.kill();
+                    if (enemy.isChest()){
+                        player.openChest();
+                        System.out.println(player.getOpenedChests());
+                    }
+                    if (enemy.isChest()){
+                        enemy.kill();
+                    } else if (player.getCanAttack()){
+                        enemy.kill();
+                    }
                 }
             }
         }
     }
 
-    public boolean isPlayerCollidingWithEnemy() {
+    public int isPlayerCollidingWithEnemy() {
         for (Enemies enemy : enemies) {
             if (enemy != null && enemy.isAlive()) {
                 double playerXPosition = player.getXPosition();
@@ -71,10 +79,32 @@ public class GameModel {
 
                 if ((Math.abs(enemyXPosition - playerXPosition) <= player.getHitboxWidth()) &&
                         (Math.abs(enemyYPosition - playerYPosition) <= player.getHitboxHeight())) {
-                    return true;
+                    if(enemy.isChest()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 }
             }
         }
-        return false;
+        return 2;
+    }
+
+    public void createAbility(){
+        if(player.getOpenedChests() == 3){
+            switch (GameEngine.getLevelNum()){
+                case 1:
+                    player.setCanAttack();
+                    System.out.println("*Story*");
+                    break;
+                case 2:
+                    player.setHorizontalMovement();
+                    System.out.println("*Story*");
+                    break;
+            }
+        } else {
+            System.out.println("All pieces of story is not collected yet!");
+            System.out.println(GameEngine.getLevelNum());
+        }
     }
 }
