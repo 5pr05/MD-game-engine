@@ -51,7 +51,7 @@ public class Player extends Characters{
     }
 
     // player horizontal movement step booster
-    public void setHorizontalMovement() {horizontalMovement = 3;}
+    public void setHorizontalMovement() {horizontalMovement = 5;}
 
     // player jump speed getter
     public int getJumpSpeed(){

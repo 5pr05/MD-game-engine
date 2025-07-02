@@ -7,7 +7,7 @@ public class Menu extends BaseMenu {
     private LevelSelectionMenu levelSelectionMenu;
 
     public Menu() {
-        this.menuFrame = setupFrame("Menu");
+        this.menuFrame = setupFrame("Myths And Dreams");
         addButtonToPanel(menuFrame, createMenuPanel(), "/platform_sprite.png");
     }
 

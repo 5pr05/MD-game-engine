@@ -9,7 +9,7 @@ public class LevelSelectionMenu extends BaseMenu {
     private GameEngine gameEngine;
 
     public LevelSelectionMenu() {
-        this.levelSelectionFrame = setupFrame("Select Level");
+        this.levelSelectionFrame = setupFrame("Myths And Dreams");
         addButtonToPanel(levelSelectionFrame, createLevelSelectionPanel(), "/lava_sprites.png");
     }
 
@@ -18,6 +18,7 @@ public class LevelSelectionMenu extends BaseMenu {
         gameEngine.getPanel().setPreferredSize(levelSelectionFrame.getSize());
         this.window = new GameWindow(levelSelectionFrame, gameEngine.getPanel());
     }
+
 
     private JPanel createLevelSelectionPanel() {
         JPanel panel = new JPanel();

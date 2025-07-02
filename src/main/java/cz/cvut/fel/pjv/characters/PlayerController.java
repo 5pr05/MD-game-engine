@@ -10,30 +10,36 @@ public class PlayerController {
     private boolean isFalling = false;
     private static GameRenderer gameRenderer;
     private GameModel gameModel;
+    private GamePanel gamePanel;
 
     private boolean onPlatform = false;
+    private boolean abilityCreated = false;
     private int jumpCounter = 0;
 
     private int groundYPosition = 300;
     private double initialYPosition;
 
-    public PlayerController(Player player, InputHandler inputHandler, GameRenderer gameRenderer, GameModel gameModel) {
-        this.player = player;
-        this.inputHandler = inputHandler;
-        this.gameRenderer = gameRenderer;
+    public PlayerController(Player player, InputHandler inputHandler, GameRenderer gameRenderer, GameModel gameModel, GamePanel gamePanel) {
+        PlayerController.player = player;
+        PlayerController.inputHandler = inputHandler;
+        PlayerController.gameRenderer = gameRenderer;
         this.gameModel = gameModel;
         this.initialYPosition = player.getYPosition();
-    }
-
-    public void setInputHandler(InputHandler inputHandler) {
-        this.inputHandler = inputHandler;
+        this.gamePanel = gamePanel;
     }
 
     public void moveHorizontally(double value) {
         double newXPosition = player.getXPosition() + value * player.getHorizontalMovement();
-        if (gameModel.canMoveHorizontally(newXPosition)) {
+        if (newXPosition > 1280) {
+            transitionToNewLocation();
+        } else if (gameModel.canMoveHorizontally(newXPosition)) {
             player.setXPosition(newXPosition);
         }
+    }
+
+    private void transitionToNewLocation() {
+        player.setXPosition(0);
+        gameModel.loadNextSection();
     }
 
     public void jump(int value) {
@@ -45,16 +51,17 @@ public class PlayerController {
         }
     }
 
-
-    public void attack() { gameModel.attackEnemies();}
+    public void attack() {
+        gameModel.attackEnemies();
+    }
 
     public void update() {
         if (player.isAlive()) {
             if (inputHandler.isLeft()) {
-                moveHorizontally(-player.getHorizontalMovement());
+                moveHorizontally(-1);
             }
             if (inputHandler.isRight()) {
-                moveHorizontally(player.getHorizontalMovement());
+                moveHorizontally(1);
             }
             if (inputHandler.isJump() && !isJumping && !isFalling) {
                 jump(player.getJumpSpeed());
@@ -88,9 +95,24 @@ public class PlayerController {
         } else {
             isFalling = true;
         }
-
         if (gameModel.isPlayerCollidingWithEnemy() == 0) {
             player.kill();
+        }
+        if (player.getXPosition() > 1280) {
+            transitionToNewLocation();
+        }
+        if (inputHandler.isButtonClicked() && !abilityCreated){
+            if (inputHandler.isInventoryOpen()) {
+                gameModel.createAbility();
+                abilityCreated = true;
+                inputHandler.setButtonClicked(true);
+            } else if (gameModel.isLevelComplete()) {
+                gamePanel.backToLevels();
+            }
+        }
+        if (!inputHandler.isInventoryOpen() && player.getOpenedChests() != 3) {
+            abilityCreated = false;
+            inputHandler.setButtonClicked(false);
         }
     }
 }

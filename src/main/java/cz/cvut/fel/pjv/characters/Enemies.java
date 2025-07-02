@@ -30,9 +30,6 @@ public class Enemies extends Characters {
         return direction;
     }
 
-    // direction setter
-    public void setDirection(int newDirection) {direction = newDirection; }
-
     // kill enemy
     public void kill() {
         if (!isLava) {

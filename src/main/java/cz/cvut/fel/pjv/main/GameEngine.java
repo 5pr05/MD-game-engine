@@ -3,7 +3,7 @@ package cz.cvut.fel.pjv.main;
 import cz.cvut.fel.pjv.characters.*;
 import cz.cvut.fel.pjv.level.*;
 
-public class GameEngine implements Runnable{
+public class GameEngine implements Runnable {
     private GamePanel panel;
     private Thread gameLoopThread;
     private final int TARGET_FPS = 120;
@@ -19,7 +19,7 @@ public class GameEngine implements Runnable{
         double yPosition = 300; // start y position
 
         Level level = null;
-        switch(levelNum) {
+        switch (levelNum) {
             case 1:
                 level = new Level1(xPosition, yPosition);
                 break;
@@ -35,15 +35,16 @@ public class GameEngine implements Runnable{
         startGameLoop();
     }
 
+
     // start game loop
-    private void startGameLoop(){
+    private void startGameLoop() {
         running = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
     }
 
     // stop game loop
-    public void stopGameLoop(){
+    public void stopGameLoop() {
         running = false;
     }
 
@@ -55,15 +56,15 @@ public class GameEngine implements Runnable{
         int frames = 0;
         long fpsTimer = System.currentTimeMillis();
 
-        while (running){
+        while (running) {
             long currentTime = System.nanoTime();
-            if (currentTime - lastUpdateTime >= timePerUpdate){
+            if (currentTime - lastUpdateTime >= timePerUpdate) {
                 panel.update();
                 gameRenderer.runAnimation();
                 lastUpdateTime = currentTime;
                 frames++;
             }
-            if(System.currentTimeMillis() - fpsTimer > 1000){
+            if (System.currentTimeMillis() - fpsTimer > 1000) {
                 fpsTimer += 1000;
                 frames = 0;
             }
@@ -71,7 +72,9 @@ public class GameEngine implements Runnable{
     }
 
     // level number getter
-    public static int getLevelNum() {return levelNum;}
+    public static int getLevelNum() {
+        return levelNum;
+    }
 
     // game panel getter
     public GamePanel getPanel() {
