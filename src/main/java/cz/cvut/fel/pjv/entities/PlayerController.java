@@ -39,7 +39,7 @@ public class PlayerController {
     }
 
     private void transitionToNewLocation() {
-        player.setXPosition(15);
+        player.setXPosition(23);
         gameModel.loadNextSection();
     }
 
