@@ -11,9 +11,9 @@ public class Guard extends Enemies{
     public void moveHorizontally(){
         if (isAlive()) {
             if (xPosition > 1000 || xPosition < 222) {
-                Enemies.direction *= -1;
+                direction *= -1;
             }
-            xPosition += Enemies.direction * MOVE_AMOUNT;
+            xPosition += direction * MOVE_AMOUNT;
         }
     }
 }

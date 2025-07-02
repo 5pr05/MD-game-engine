@@ -3,7 +3,6 @@ package cz.cvut.fel.pjv.main;
 import cz.cvut.fel.pjv.characters.*;
 
 public class GameEngine implements Runnable{
-    private GameWindow window;
     private GamePanel panel;
     private Thread gameLoopThread;
     private final int TARGET_FPS = 120;
@@ -16,7 +15,6 @@ public class GameEngine implements Runnable{
         double xPosition = 0; // start x position
         double yPosition = 300; // start y position
         panel = new GamePanel(xPosition, yPosition);
-        window = new GameWindow(panel);
         playerController = panel.getPlayerController();
         gameRenderer = panel.getGameRenderer();
         panel.requestFocus();
@@ -56,5 +54,10 @@ public class GameEngine implements Runnable{
                 frames = 0;
             }
         }
+    }
+
+    // game panel getter
+    public GamePanel getPanel() {
+        return panel;
     }
 }

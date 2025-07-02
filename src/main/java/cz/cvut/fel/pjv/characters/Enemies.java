@@ -3,11 +3,13 @@ package cz.cvut.fel.pjv.characters;
 public class Enemies extends Characters {
     private Player player;
     protected boolean isLava = false;
-    protected static int direction = 1;
+    protected int direction = 1;
 
     protected double enemiesXPosition = this.xPosition;
     protected double enemiesYPosition = this.yPosition;
-    private boolean alive = true;
+    public boolean alive = true;
+
+    public int yPose = 0;
 
     public Enemies(double xPosition, double yPosition, Player player) {
         super(xPosition, yPosition);
@@ -28,6 +30,9 @@ public class Enemies extends Characters {
     public int getDirection(){
         return direction;
     }
+
+    // direction setter
+    public void setDirection(int newDirection) {direction = newDirection; }
 
     // kill enemy
     public void kill() {

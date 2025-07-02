@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
-    private static final Dimension PANEL_SIZE = new Dimension(1280, 800);
     private Player player;
     private Enemies[] enemies;
     private Platform[] platforms;
@@ -23,7 +22,6 @@ public class GamePanel extends JPanel {
         InputHandler inputHandler = new InputHandler(playerController, this);
         playerController.setInputHandler(inputHandler);
         this.gameRenderer = new GameRenderer(player, enemies, platforms, playerController, inputHandler);
-        //this.playerController.setGameRenderer(gameRenderer);
         this.addKeyListener(inputHandler);
         this.addMouseListener(inputHandler);
         this.setFocusable(true);
@@ -41,11 +39,7 @@ public class GamePanel extends JPanel {
 
     // panel settings
     private void initializePanel() {
-        setMinimumSize(PANEL_SIZE);
-        setMaximumSize(PANEL_SIZE);
-        setPreferredSize(PANEL_SIZE);
         setFocusable(true);
-        requestFocusInWindow();
     }
 
     // update player

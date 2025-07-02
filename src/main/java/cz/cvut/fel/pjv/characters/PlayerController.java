@@ -92,7 +92,7 @@ public class PlayerController {
                 attack();
             }
         }
-        if (isJumping && !isFalling && jumpCounter > 0) {
+        if (alive && isJumping && !isFalling && jumpCounter > 0) {
             player.setYPosition(player.getYPosition() - jumpSpeed);
             jumpCounter--;
             if (jumpCounter == 0) {

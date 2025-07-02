@@ -17,7 +17,7 @@ public class GameRenderer {
     private Platform[] platforms;
     private BufferedImage playerSprites, guardSprites, lavaSprites, platformSprites;
     private PlayerController playerController;
-    private int xPose, yPose, yPoseGuard;
+    private int xPose, yPose;
     private int spriteWidth = 40;
     private int spriteHeight = 64;
     private int numSpritesX = 3;
@@ -50,19 +50,27 @@ public class GameRenderer {
                     } else {
                         yPose = 2;
                     }
-                } if (!playerController.isAlive()) {
+                }
+                if (!playerController.isAlive()) {
                     yPose = 3;
                 }
-                for (Enemies enemy : enemies) {
-                    if (enemy != null) {
-                        if (enemy.getDirection() > 0) {
-                            yPoseGuard = 0;
-                        } if (enemy.getDirection() < 0) {
-                            yPoseGuard = 1;
+                for (int i = 0; i <= 1; i++) {
+                    if (enemies[i] != null) {
+                        if (enemies[i].isAlive()) {
+                            if (enemies[i].getDirection() > 0) {
+                                enemies[i].yPose = 0;
+                            }
+                            else if (enemies[i].getDirection() <= 0) {
+                                enemies[i].yPose = 1;
+                            }
+                        }
+                        else{
+                            enemies[i].yPose = 2;
                         }
                     }
                 }
             }
+
             currentDelay = 0;
         } else {
             currentDelay++;
@@ -93,13 +101,13 @@ public class GameRenderer {
         graphics.drawImage(playerSprites.getSubimage(xPose * spriteWidth, yPose * spriteHeight, spriteWidth, spriteHeight), (int)player.getXPosition(), (int)player.getYPosition(), null);
         for (Enemies enemy : enemies) {
             if (enemy instanceof Guard) {
-                graphics.drawImage(guardSprites.getSubimage(xPose * spriteWidth, yPoseGuard * spriteHeight, spriteWidth, spriteHeight), (int)enemy.getEnemiesXPosition(), (int)enemy.getEnemiesYPosition(), null);
+                graphics.drawImage(guardSprites.getSubimage(xPose * spriteWidth, enemy.yPose * spriteHeight, spriteWidth, spriteHeight), (int)enemy.getEnemiesXPosition(), (int)enemy.getEnemiesYPosition(), null);
             } else if (enemy instanceof Lava) {
-                graphics.drawImage(lavaSprites.getSubimage(xPose * 30, 1, 100, 19), (int)enemy.getEnemiesXPosition(), (int)enemy.getEnemiesYPosition(), null);
+                graphics.drawImage(lavaSprites.getSubimage(xPose * 100, 1, 100, 20), (int)enemy.getEnemiesXPosition(), (int)enemy.getEnemiesYPosition(), null);
             }
         }
         for (Platform platform : platforms) {
-            graphics.drawImage(platformSprites.getSubimage(200, 100, 100, 20), platform.getxPosition(), platform.getYPosition(), null);
+            graphics.drawImage(platformSprites.getSubimage(0, 0, 100, 20), platform.getxPosition(), platform.getYPosition(), null);
         }
     }
 }
