@@ -10,7 +10,7 @@ public class InputHandler implements KeyListener, MouseListener {
     private GamePanel gamePanel;
     private Player player;
 
-    private boolean left, right, jump;
+    private boolean left, right, jump, attack;
 
     public InputHandler(PlayerController playerController, GamePanel gamePanel){
         this.playerController = playerController;
@@ -30,6 +30,9 @@ public class InputHandler implements KeyListener, MouseListener {
             case KeyEvent.VK_SPACE:
                 jump = true;
                 break;
+            case KeyEvent.VK_E:
+                attack = true;
+                break;
         }
         gamePanel.repaint();
     }
@@ -47,6 +50,9 @@ public class InputHandler implements KeyListener, MouseListener {
             case KeyEvent.VK_SPACE:
                 jump = false;
                 break;
+            case KeyEvent.VK_E:
+                attack = false;
+                break;
         }
     }
 
@@ -58,9 +64,10 @@ public class InputHandler implements KeyListener, MouseListener {
     public boolean isRight() {
         return right;
     }
-    public boolean jump() {
+    public boolean isJump() {
         return jump;
     }
+    public boolean isAttack() { return attack;}
 
     // not used so far
     @Override
@@ -75,4 +82,5 @@ public class InputHandler implements KeyListener, MouseListener {
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
 }

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Player extends Characters{
+    protected static double hitboxWeight = 50, hitboxHeight = 128;
+    protected static double attackRangeWeight = 150, attackRangeHeight = 300;
     private BufferedImage img, pose;
 
     public Player(double xPosition, double yPosition){
@@ -30,24 +32,23 @@ public class Player extends Characters{
         graphics.drawImage(pose, (int)xPosition, (int)yPosition, 80, 128, null);
     }
 
-    // get player's x position
+    // player x position getter
     public double getXPosition() {
         return this.xPosition;
     }
 
-    // set player's x position
+    // player x position setter
     public void setXPosition(double xPosition) {
         this.xPosition = xPosition;
     }
 
-    // get player's y position
+    // player y position getter
     public double getYPosition() {
         return this.yPosition;
     }
 
-    // set player's y position
+    // player y position setter
     public void setYPosition(double yPosition) {
         this.yPosition = yPosition;
     }
 }
-

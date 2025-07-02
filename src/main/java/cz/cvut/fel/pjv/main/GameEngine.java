@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.main;
 
+import cz.cvut.fel.pjv.characters.Enemies;
 import cz.cvut.fel.pjv.inputs.InputHandler;
 import cz.cvut.fel.pjv.characters.Player;
 import cz.cvut.fel.pjv.characters.PlayerController;
@@ -16,13 +17,17 @@ public class GameEngine implements Runnable{
         double yPosition = 300; // start y position
         Player player = new Player(xPosition, yPosition);
         panel = new GamePanel(xPosition, yPosition);
-        PlayerController playerController = new PlayerController(player, null);
+        Enemies[] enemies = panel.getEnemies();
+        PlayerController playerController = new PlayerController(player, null, enemies);
         InputHandler inputHandler = new InputHandler(playerController, panel);
+        playerController.setInputHandler(inputHandler);
         panel.setInputHandler(inputHandler);
         window = new GameWindow(panel);
         panel.requestFocus();
         startGameLoop();
+
     }
+
 
     // start game loop
     private void startGameLoop(){
